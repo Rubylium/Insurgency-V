@@ -12,6 +12,6 @@ local weapons = {
 
 function InitWeaponsDamage()
     for k,v in pairs(weapons) do
-        SetWeaponDamageModifier(GetHashKey(v?weap), v.multi)
+        SetWeaponDamageModifier(GetHashKey(v.weap), v.multi)
     end
 end
