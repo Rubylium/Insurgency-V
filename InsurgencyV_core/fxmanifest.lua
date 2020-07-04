@@ -20,7 +20,10 @@ client_scripts {
 }
 
 client_scripts {
-     --'tests/rmenu/basic.lua',
+    'client/init/*.lua',
 }
 
 
+server_scripts {
+    
+}
