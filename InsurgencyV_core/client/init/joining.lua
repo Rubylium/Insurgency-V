@@ -3,6 +3,7 @@ Citizen.CreateThread(function()
 
 
     InitWatermark()
+    InitPlayerClass()
     initCinematic()
 end)
 
