@@ -2,7 +2,27 @@
 
 
 function InitPlayerClass()
-    local player = {}
+    player = {
+        pPed = function()
+            return self.ped
+        end,
+
+        pVeh = function()
+            return self.veh
+        end,
+
+        pLastVeh = function()
+            return self.lastVeh
+        end,
+
+        phealth = function()
+            return self.health
+        end,
+
+        pName = function()
+            return self.name
+        end,
+    }
 
     -- Main player loop
     Citizen.CreateThread(function()
@@ -11,24 +31,8 @@ function InitPlayerClass()
             player.veh = GetVehiclePedIsIn(player.ped, 0)
             player.lastVeh = GetVehiclePedIsIn(player.ped, 1)
             player.health = GetEntityHealth(player.ped)
+            player.name = GetPlayerName(GetPlayerIndex())
             Wait(1000)
         end
     end)
-
-
-    function pPed()
-        return player.ped
-    end
-
-    function pVeh()
-        return player.veh
-    end
-
-    function pLastVeh()
-        return player.lastVeh
-    end
-
-    function phealth()
-        return player.health
-    end
 end
