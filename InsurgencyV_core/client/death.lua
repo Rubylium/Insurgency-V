@@ -8,7 +8,7 @@ function InitDeathHandler()
 
         while true do
             local isDead = false
-            
+            exports.spawnmanager:setAutoSpawn(false)
 
             if IsEntityDead(GetPlayerPed(-1)) then
                 isDead = true
