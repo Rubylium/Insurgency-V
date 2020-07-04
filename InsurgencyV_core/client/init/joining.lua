@@ -9,6 +9,8 @@ end)
 
 local cam = nil
 local InCinematic = false
+
+local lockedControls = {24,25,69,70}
 local cams = {
     {pos = vector3(729.41, 2528.05, 86.65), lookAt = vector3(1084.22, 2711.88, 44.7)},
     {pos = vector3(-2357.99, 3242.93, 93.6), lookAt = vector3(-1889.62, 2982.23, 48.01)},
@@ -43,8 +45,7 @@ function initCinematic()
                 PointCamAtCoord(cam, r.lookAt)
                 SetCamFov(cam, 50.0)
                 SetFocusArea(r.pos, 0.0, 0.0, 0.0)
-                SetCamShakeAmplitude(cam, 2.0)
-                ShakeGameplayCam("ROAD_VIBRATION_SHAKE", 0.75)
+                ShakeCam(cam, "HAND_SHAKE", 0.2)
                 Wait(15000)
                 if not InCinematic then 
                     StopGameplayCamShaking(false)
@@ -81,6 +82,11 @@ function initCinematic()
     Citizen.CreateThread(function()
         while InCinematicMenu do
             Wait(1)
+
+            for k,v in pairs(lockedControls) do
+                DisableControlAction(0, v, true)
+            end
+
             RageUI.IsVisible(RMenu:Get('core', 'cinematic'), false, false, false, function()
                 RageUI.ButtonWithStyle("Join the army", nil, {}, true, function(_, _, s)
                     if s then
@@ -98,11 +104,13 @@ function initCinematic()
                         SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_blackops_02"))
                         player.ped = GetPlayerPed(-1)
                         SetPedRandomProps(player.ped)
+                        GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
 
                         DoScreenFadeIn(1500)
                         InCinematic = false
-                        SetEntityCoords(player.ped, -2337.62, 3263.19, 32.83, 0.0, 0.0, 0.0, 0)
+                        SetEntityCoords(player.ped, -2337.62, 3263.19, 31.83, 0.0, 0.0, 0.0, 0)
                         SetEntityHeading(player.ped, 240.6)
+                        SetFocusArea(-2337.62, 3263.19, 32.83, 0.0, 0.0, 0.0)
 
                         SetCamCoord(cam, -2328.69, 3257.94, 32.83)
                         SetCamFov(cam, 15.0)
@@ -129,6 +137,19 @@ function initCinematic()
                         end
                     end)
                 end
+
+                RageUI.ButtonWithStyle("~g~Join the game.", nil, {}, true, function(_, _, s)
+                    if s then
+                        TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
+                        DoScreenFadeOut(100)
+                        while not IsScreenFadedOut() do Wait(1) end
+                        RenderScriptCams(0, 0, 0, 0, 0)
+                        DoScreenFadeIn(2500)
+                        ClearFocus()
+                        InCinematicMenu = false
+                        JoinArmy()
+                    end
+                end)
             end, function()
             end)
         end
