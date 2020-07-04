@@ -6,7 +6,7 @@ function InitWatermark()
     Citizen.CreateThread(function()
         while true do
             Wait(1)
-            SetTextColour(191, 191, 191, 150)
+            SetTextColour(191, 191, 191, 190)
 
             SetTextFont(4)
             SetTextScale(0.4, 0.4)
@@ -16,7 +16,7 @@ function InitWatermark()
             SetTextEdge(1, 0, 0, 0, 205)
             SetTextEntry("STRING")
             AddTextComponentString("Insurgency V - DEV 0.0.1")
-            DrawText(0.005, 0.001)
+            DrawText(0.455, 0.970)
         end
     end)
 end
