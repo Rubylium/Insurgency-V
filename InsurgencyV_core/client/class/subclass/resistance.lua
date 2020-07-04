@@ -7,8 +7,8 @@ local ResistanceWeapons = {
 }
 
 function JoinResistance()
-    player.camp = "ResistanceWeapons"
-    for k,v in pairs(ArmyWeapons) do
+    player.camp = "resistance"
+    for k,v in pairs(ResistanceWeapons) do
         GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
     end
 end
