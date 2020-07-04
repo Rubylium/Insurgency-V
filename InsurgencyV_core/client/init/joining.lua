@@ -1,9 +1,10 @@
 Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
 
-
-    InitWatermark()
     InitPlayerClass()
+    InitWatermark()
+    InitWeaponsDamage()
+    InitVehsZone()
     initCinematic()
 end)
 
@@ -22,9 +23,11 @@ function initCinematic()
     DoScreenFadeOut(100)
     while not IsScreenFadedOut() do Wait(1) end
     SetNuiFocus(true, true)
-
+    -- Display menu
+    local InCinematicMenu = true
 
     function DoCinematic()
+        if not InCinematicMenu then return end
         InCinematic = true
         Citizen.CreateThread(function()
             TriggerEvent("xsound:stateSound", "play", {
@@ -58,9 +61,6 @@ function initCinematic()
         end)
     end
     DoCinematic()
-
-    -- Display menu
-    local InCinematicMenu = true
 
     RMenu.Add('core', 'cinematic', RageUI.CreateMenu("Insurgency V", "~b~Choose your side ..."))
     RMenu:Get('core', 'cinematic').Closed = function()
