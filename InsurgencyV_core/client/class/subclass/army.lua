@@ -16,7 +16,7 @@ local ArmyWeapons = {
 }
 
 function JoinArmy()
-    player.camp = "army",
+    player.camp = "army"
     for k,v in pairs(ArmyWeapons) do
         GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
     end
