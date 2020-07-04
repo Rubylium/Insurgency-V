@@ -1,5 +1,8 @@
 Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
+
+    
+    InitWatermark()
     initCinematic()
 end)
 
