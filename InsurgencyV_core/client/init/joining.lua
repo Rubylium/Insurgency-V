@@ -125,6 +125,7 @@ function initCinematic()
                             SetPlayerModel(GetPlayerIndex(), GetHashKey(v.model))
                             player.ped = GetPlayerPed(-1)
                             SetPedRandomProps(player.ped)
+                            GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
                         end
                     end)
                 end
