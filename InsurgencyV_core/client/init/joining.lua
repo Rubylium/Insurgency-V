@@ -24,7 +24,7 @@ function initCinematic()
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "cinematic", 
         url = "https://www.youtube.com/watch?v=Jme5hYgXbNY&list=PL953Es57AbWdc4oqOC5HWLWGD7Xvk1qYd&index=1", 
-        volume = 0.2, 
+        volume = 0.3, 
         loop = true
     })
 
@@ -55,4 +55,35 @@ function initCinematic()
     end)
 
     -- Display menu
+    local InCinematicMenu = true
+
+    RMenu.Add('core', 'cinematic', RageUI.CreateMenu("RageUI", "Undefined for using SetSubtitle"))
+    RMenu:Get('core', 'cinematic'):SetSubtitle("~b~RAGEUI SHOWCASE")
+    RMenu:Get('core', 'cinematic').EnableMouse = true
+    RMenu:Get('core', 'cinematic').Closed = function()
+        InCinematicMenu = false
+    end;
+    RMenu:Get("core", "cinematic").Closable = false
+    RageUI.Visible(RMenu:Get('core', 'cinematic'), true)
+    RageUI.SetStyleAudio("RageUI")
+
+
+    Citizen.CreateThread(function()
+        while InCinematicMenu do
+            Wait(1)
+            RageUI.IsVisible(RMenu:Get('core', 'cinematic'), false, false, false, function()
+                RageUI.ButtonWithStyle("Join the army", nil, {}, true, function(_, _, s)
+                    if s then
+
+                    end
+                end)
+                RageUI.ButtonWithStyle("Join the resistance", nil, {}, true, function(_, _, s)
+                    if s then
+
+                    end
+                end)
+            end, function()
+            end)
+        end
+    end)
 end
