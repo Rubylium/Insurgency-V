@@ -1,7 +1,12 @@
 Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
 
+
+    NetworkSetFriendlyFireOption(true)
+    SetCanAttackFriendly(PlayerPedId(), true, true)
+
     InitPlayerClass()
+    InitDeathHandler()
     InitWatermark()
     InitWeaponsDamage()
     InitVehsZone()
@@ -33,7 +38,7 @@ function initCinematic()
             TriggerEvent("xsound:stateSound", "play", {
                 soundId = "cinematic", 
                 url = "https://www.youtube.com/watch?v=Jme5hYgXbNY&list=PL953Es57AbWdc4oqOC5HWLWGD7Xvk1qYd&index=1", 
-                volume = 0.3, 
+                volume = 0.6, 
                 loop = true
             })
             DoScreenFadeIn(2500)
