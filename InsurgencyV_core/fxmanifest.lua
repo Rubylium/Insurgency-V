@@ -24,6 +24,7 @@ client_scripts {
     'client/class/*.lua',
     'client/class/subclass/*.lua',
     'client/init/*.lua',
+    'client/points/*.lua',
 }
 
 
