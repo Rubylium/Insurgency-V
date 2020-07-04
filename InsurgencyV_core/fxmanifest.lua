@@ -20,7 +20,9 @@ client_scripts {
 }
 
 client_scripts {
+    'client/*.lua',
     'client/class/*.lua',
+    'client/class/subclass/*.lua',
     'client/init/*.lua',
 }
 
