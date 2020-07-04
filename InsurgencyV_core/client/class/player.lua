@@ -22,6 +22,10 @@ function InitPlayerClass()
         pName = function()
             return self.name
         end,
+
+        pCoords = function()
+            return self.coords
+        end,
     }
 
     -- Main player loop
@@ -32,6 +36,7 @@ function InitPlayerClass()
             player.lastVeh = GetVehiclePedIsIn(player.ped, 1)
             player.health = GetEntityHealth(player.ped)
             player.name = GetPlayerName(GetPlayerIndex())
+            player.coords = GetEntityCoords(player.ped)
             Wait(1000)
         end
     end)
