@@ -74,6 +74,12 @@ function initCinematic()
         DoCinematic()
     end;
 
+    RMenu.Add('core', 'resistance_choose', RageUI.CreateSubMenu(RMenu:Get('core', 'cinematic'), "Army", "~b~Choose your ped ..."))
+    RMenu:Get('core', 'resistance_choose').Closed = function()
+        TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
+        DoCinematic()
+    end;
+
 
     RageUI.Visible(RMenu:Get('core', 'cinematic'), true)
     RageUI.SetStyleAudio("RageUI")
@@ -120,6 +126,60 @@ function initCinematic()
                 RageUI.ButtonWithStyle("Join the resistance", nil, {}, true, function(_, _, s)
                     if s then
 
+                        TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
+                        DoScreenFadeOut(100)
+                        while not IsScreenFadedOut() do Wait(1) end
+                        TriggerEvent("xsound:stateSound", "play", {
+                            soundId = "cinematic", 
+                            url = "https://www.youtube.com/watch?v=Ul9Da5c2UXw", 
+                            volume = 0.2, 
+                            loop = true
+                        })
+
+                        LoadModel("ig_russiandrunk")
+                        SetPlayerModel(GetPlayerIndex(), GetHashKey("ig_russiandrunk"))
+                        player.ped = GetPlayerPed(-1)
+                        SetPedRandomProps(player.ped)
+                        GiveWeaponToPed(player.ped, GetHashKey("weapon_assaultrifle"), 255, 0, true)
+
+                        DoScreenFadeIn(1500)
+                        InCinematic = false
+                        SetEntityCoords(player.ped, 2930.63, 4623.93, 47.72, 0.0, 0.0, 0.0, 0)
+                        SetEntityHeading(player.ped, 35.92)
+                        SetFocusArea(2930.63, 4623.93, 47.72, 0.0, 0.0, 0.0)
+
+                        SetCamCoord(cam, 2925.28, 4632.62, 48.55)
+                        SetCamFov(cam, 15.0)
+                        PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
+
+                    end
+                end, RMenu:Get('core', 'resistance_choose'))
+            end, function()
+            end)
+
+            RageUI.IsVisible(RMenu:Get('core', 'resistance_choose'), false, false, false, function()
+                --for k,v in pairs(armypeds) do
+                --    RageUI.ButtonWithStyle(v.label, nil, {}, true, function(_, _, s)
+                --        if s then
+                --            LoadModel(v.model)
+                --            SetPlayerModel(GetPlayerIndex(), GetHashKey(v.model))
+                --            player.ped = GetPlayerPed(-1)
+                --            SetPedRandomProps(player.ped)
+                --            GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
+                --        end
+                --    end)
+                --end
+
+                RageUI.ButtonWithStyle("~g~Join the game.", nil, {}, true, function(_, _, s)
+                    if s then
+                        TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
+                        DoScreenFadeOut(100)
+                        while not IsScreenFadedOut() do Wait(1) end
+                        RenderScriptCams(0, 0, 0, 0, 0)
+                        DoScreenFadeIn(2500)
+                        ClearFocus()
+                        InCinematicMenu = false
+                        JoinResistance()
                     end
                 end)
             end, function()
