@@ -7,6 +7,7 @@ local vehsZone = {
             "dune3",
             "nightshark",
             "technical",
+            "buzzard2",
         },
     },
     {
@@ -17,6 +18,7 @@ local vehsZone = {
             "barracks3",
             "crusader",
             "halftrack",
+            "buzzard2",
         },
     },
 }
