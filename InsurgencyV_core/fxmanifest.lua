@@ -29,5 +29,5 @@ client_scripts {
 
 
 server_scripts {
-    "capture.lua",
+    "server/capture.lua",
 }
