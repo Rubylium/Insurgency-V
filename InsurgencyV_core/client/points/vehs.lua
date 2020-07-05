@@ -50,7 +50,7 @@ function InitVehsZone()
     end)
 
 
-    RMenu.Add('core', 'vehs', RageUI.CreateMenu("Insurgency V", "~b~Choose your side ..."))
+    RMenu.Add('core', 'vehs', RageUI.CreateMenu("Insurgency V", "~b~Choose your vehicle ..."))
     RMenu:Get('core', 'vehs').Closed = function()
         InsideMenu = false
     end;
