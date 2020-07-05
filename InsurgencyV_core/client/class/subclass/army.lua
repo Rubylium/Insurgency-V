@@ -16,6 +16,7 @@ local ArmyWeapons = {
 }
 
 function JoinArmy()
+    RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "army"
     for k,v in pairs(ArmyWeapons) do
         GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
