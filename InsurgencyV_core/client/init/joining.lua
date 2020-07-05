@@ -6,10 +6,10 @@ Citizen.CreateThread(function()
     SetCanAttackFriendly(PlayerPedId(), true, true)
 
     InitPlayerClass()
-    InitDeathHandler()
     InitWatermark()
     InitWeaponsDamage()
     InitVehsZone()
+    InitDeathHandler()
     initCinematic()
 end)
 
@@ -27,7 +27,6 @@ function initCinematic()
     DisplayRadar(false)
     DoScreenFadeOut(100)
     while not IsScreenFadedOut() do Wait(1) end
-    SetNuiFocus(true, true)
     -- Display menu
     local InCinematicMenu = true
 
