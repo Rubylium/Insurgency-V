@@ -1,7 +1,7 @@
 
 
 local captureZone = {
-    {label = "", team = "Neutral"}
+    {label = "Test zone", team = "Neutral"},
 }
 
 
@@ -13,6 +13,6 @@ AddEventHandler("V:CapturePoint", function(id, team)
     end
     if captureZone[id] ~= nil then
         captureZone[id].team = team
-        TriggerClientEvent("V:ZoneCaptured", -1, captureZone[id].label, captureZone[id].team)
+        TriggerClientEvent("V:ZoneCaptured", -1, captureZone[id].label, captureZone[id].team, id)
     end
 end)
