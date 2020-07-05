@@ -21,6 +21,27 @@ local BlipsInfo = {
     ["resistance"] = {sprite = 543, color = 49},
 }
 
+
+RegisterNetEvent("V:SyncBlips")
+AddEventHandler("V:SyncBlips", function(blips)
+    for k,v in pairs(blips) do
+        captureZone[k].team = blips[k].team
+
+        RemoveBlip(captureZone[k].blip)
+        RemoveBlip(captureZone[k].blip2)
+    
+        captureZone[k].blip = AddBlipForCoord(captureZone[k].pos)
+        SetBlipSprite(captureZone[k].blip, BlipsInfo[blips[k].team].sprite)
+        SetBlipColour(captureZone[k].blip, BlipsInfo[blips[k].team].color)
+        SetBlipScale(captureZone[k].blip, 1.0)
+    
+    
+        captureZone[k].blip2 = AddBlipForRadius(captureZone[k].pos, 350.0)
+        SetBlipColour(captureZone[k].blip2, BlipsInfo[blips[k].team].color)
+        SetBlipAlpha(captureZone[k].blip2, 170)  
+    end
+end)
+
 RegisterNetEvent("V:ZoneCaptured")
 AddEventHandler("V:ZoneCaptured", function(label, team, id)
     SetAudioFlag("LoadMPData", true)
@@ -63,6 +84,8 @@ Citizen.CreateThread(function()
         SetBlipColour(captureZone[k].blip2, 55)
         SetBlipAlpha(captureZone[k].blip2, 170)
     end
+
+    TriggerServerEvent("V:RequestBlipSync")
     while true do
         local IsCaptureZone = false
         if not InCapture then
