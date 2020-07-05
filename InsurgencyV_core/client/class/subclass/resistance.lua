@@ -7,7 +7,7 @@ local ResistanceWeapons = {
     "weapon_rpg"
 }
 
-function JoinResistance()
+function JoinResistance(music)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "resistance"
@@ -19,10 +19,15 @@ function JoinResistance()
         end
     end
 
-    TriggerEvent("xsound:stateSound", "play", {
-        soundId = "starting_game", 
-        url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
-        volume = 0.4, 
-        loop = false
-    })
+    if music then
+        TriggerEvent("xsound:stateSound", "play", {
+            soundId = "starting_game", 
+            url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
+            volume = 0.2, 
+            loop = false
+        })
+        TriggerServerEvent("V:JoinResistance")
+    end
+    inGame = true
+    SetEntityInvincible(player.ped, false)
 end
