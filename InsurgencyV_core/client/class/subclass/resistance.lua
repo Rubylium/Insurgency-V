@@ -8,6 +8,7 @@ local ResistanceWeapons = {
 }
 
 function JoinResistance()
+    DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "resistance"
     for k,v in pairs(ResistanceWeapons) do
