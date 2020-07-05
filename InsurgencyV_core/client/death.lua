@@ -27,10 +27,10 @@ function InitDeathHandler()
                 if count > 1000 then
                     --ShowHelpNotification("Press ~INPUT_PICKUP~ to respawn")
                     RageUI.Text({message = "Press ~b~[E]~s~ to respawn"})
-                    if IsControlJustReleased(1, 38) then
+                    --if IsControlJustReleased(1, 38) then
                         count = 0
                         Respawn()
-                    end
+                    --end
                 else
                     --ShowHelpNotification("You are dead, you have to wait befor respawn...")
                     RageUI.Text({message = "You are dead, you have to wait befor respawn..."})
