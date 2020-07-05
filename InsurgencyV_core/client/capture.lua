@@ -36,6 +36,7 @@ end)
 local InCapture = false
 Citizen.CreateThread(function()
 
+    while player == nil do Wait(1) end
     while player.camp == nil do Wait(1) end
     for k,v in pairs(captureZone) do
         captureZone[k].blip = AddBlipForCoord(captureZone[k].pos)
@@ -107,6 +108,6 @@ function StartCapture(id, pos)
 
             Wait(0)
         end
-    end
+    end)
     
 end
