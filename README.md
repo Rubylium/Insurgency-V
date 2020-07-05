@@ -12,3 +12,4 @@ Discord to talk and see what's going on: https://discord.gg/DQfMckK
 # Credit
 
 xsound : https://github.com/Xogy/xsound
+nMarker : https://github.com/SuperCoolNinja/FiveM-nMarker
