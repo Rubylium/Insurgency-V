@@ -33,7 +33,7 @@ function InitVehsZone()
                 for k,v in pairs(vehsZone) do
                     if #(player.coords - v.pos) < 10.0 then
                         IsCloseTo = true
-                        ShowHelpNotification("Appuyer sur ~INPUT_PICKUP~ pour ouvrir le menu de véhicule")
+                        ShowHelpNotification("Press ~INPUT_PICKUP~ to open vehicle spawn menu")
                         if IsControlJustReleased(0, 38) then
                             OpenVehMenu(v.vehs)
                         end
