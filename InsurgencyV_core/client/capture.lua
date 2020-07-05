@@ -1,3 +1,4 @@
+inGame = false
 
 local captureZone = {
     {label = "Silo", pos = vector3(2901.66, 4383.41, 50.35), blip = nil, blip2 = nil, team = "Neutral"},
@@ -46,10 +47,12 @@ end)
 RegisterNetEvent("V:ZoneCaptured")
 AddEventHandler("V:ZoneCaptured", function(label, team, id)
     SetAudioFlag("LoadMPData", true)
-    PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
-    PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
-    PlaySoundFrontend(-1, "Enemy_Capture_Start", "GTAO_Magnate_Yacht_Attack_Soundset", 1)
-    ShowPopupWarning("Zone captured!", "The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.", 5)
+    if inGame then
+        PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
+        PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
+        PlaySoundFrontend(-1, "Enemy_Capture_Start", "GTAO_Magnate_Yacht_Attack_Soundset", 1)
+        ShowPopupWarning("Zone captured!", "The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.", 5)
+    end
 
     RemoveBlip(captureZone[id].blip)
     RemoveBlip(captureZone[id].blip2)
