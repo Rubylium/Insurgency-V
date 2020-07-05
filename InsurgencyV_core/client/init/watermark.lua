@@ -15,7 +15,7 @@ function InitWatermark()
             SetTextDropshadow(2, 2, 0, 0, 0)
             SetTextEdge(1, 0, 0, 0, 205)
             SetTextEntry("STRING")
-            AddTextComponentString("Insurgency V - DEV 0.0.1")
+            AddTextComponentString("Insurgency V - DEV 0.0.2")
             DrawText(0.455, 0.970)
         end
     end)
