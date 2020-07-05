@@ -1,13 +1,15 @@
 
 exports.spawnmanager:setAutoSpawn(false)
 function InitDeathHandler()
+    local isDead = false
 
     Citizen.CreateThread(function()
         while player.health == nil do Wait(1) end
         local count = 0
+        
 
         while true do
-            local isDead = false
+            
             exports.spawnmanager:setAutoSpawn(false)
 
             if IsEntityDead(GetPlayerPed(-1)) then
@@ -22,17 +24,11 @@ function InitDeathHandler()
 
 
             if isDead then
-                print(count)
                 SetEntityVisible(player.ped, 0, 0)
                 if count > 1000 then
-                    --ShowHelpNotification("Press ~INPUT_PICKUP~ to respawn")
-                    RageUI.Text({message = "Press ~b~[E]~s~ to respawn"})
-                    --if IsControlJustReleased(1, 38) then
-                        count = 0
-                        Respawn()
-                    --end
+                    count = 0
+                    Respawn()
                 else
-                    --ShowHelpNotification("You are dead, you have to wait befor respawn...")
                     RageUI.Text({message = "You are dead, you have to wait befor respawn..."})
                 end
                 Wait(1)
