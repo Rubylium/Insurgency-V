@@ -19,6 +19,7 @@ local captureZone = {
 local BlipsInfo = {
     ["army"] = {sprite = 590, color = 77},
     ["resistance"] = {sprite = 543, color = 49},
+    ["Neutral"] = {sprite = 464, color = 55},
 }
 
 
@@ -91,7 +92,7 @@ Citizen.CreateThread(function()
         if not InCapture then
             for k,v in pairs(captureZone) do
                 if captureZone[k].team ~= player.camp then
-                    if GetDistanceBetweenCoords(v.pos, player.coords, true) < 50.0 then
+                    if GetDistanceBetweenCoords(v.pos, player.coords, false) < 50.0 then
                         InCapture = true
                         StartCapture(k, v.pos)
                         break
@@ -125,7 +126,7 @@ function StartCapture(id, pos)
     Citizen.CreateThread(function()
         while InCapture do
             RageUI.Text({message = "Capture de zone en cours ..."})
-            if GetDistanceBetweenCoords(pos, player.coords, true) > 50.0 then
+            if GetDistanceBetweenCoords(pos, player.coords, false) > 50.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
             end
