@@ -1,6 +1,6 @@
 
 
-local captureZone = {
+captureZone = {
     {label = "Silo", team = "Neutral"},
     {label = "Crossroad", team = "Neutral"},
     {label = "Color montain", team = "Neutral"},
@@ -20,8 +20,6 @@ local captureZone = {
 
 RegisterNetEvent("V:CapturePoint")
 AddEventHandler("V:CapturePoint", function(id, team)
-    print(id, camp)
-    print(type(id), type(camp))
     if team ~= "army" and team ~= "resistance" then
         return
     end
