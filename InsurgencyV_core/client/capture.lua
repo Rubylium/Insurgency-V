@@ -1,6 +1,18 @@
 
 local captureZone = {
-    {label = "Test zone", pos = vector3(13.0, 13.0, 13.0), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Silo", pos = vector3(2901.66, 4383.41, 50.35), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Crossroad", pos = vector3(2498.99, 4118.77, 37.88), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Color montain", pos = vector3(2482.08, 3757.56, 41.26), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Sandy Shores", pos = vector3(1799.86, 3734.57, 33.29), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Yellow Jack", pos = vector3(1996.03, 3064.16, 4705), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Mine", pos = vector3(2683.63, 2827.97, 40.27), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Montain house", pos = vector3(1737.86, 3038.64, 61.29), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Fuel farm", pos = vector3(634.25, 2908.58, 39.97), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Church", pos = vector3(-329.73, 2823.63, 58.04), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Vacation house", pos = vector3(-258.06, 2195.35, 129.82), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Deposit", pos = vector3(192.47, 2753.58, 43.43), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Camp", pos = vector3(67.5, 3708.79, 39.75), blip = nil, blip2 = nil, team = "Neutral"},
+    {label = "Liquor market", pos = vector3(917.51, 3622.35, 32.47), blip = nil, blip2 = nil, team = "Neutral"},
 }
 
 
@@ -12,8 +24,10 @@ local BlipsInfo = {
 RegisterNetEvent("V:ZoneCaptured")
 AddEventHandler("V:ZoneCaptured", function(label, team, id)
     SetAudioFlag("LoadMPData", true)
-    PlaySoundFrontend(-1, "ASSASSINATIONS_HOTEL_TIMER_COUNTDOWN", "ASSASSINATION_MULTI", 1)
-    ShowPopupWarning("Zone captured!", "The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.")
+    PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
+    PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
+    PlaySoundFrontend(-1, "Enemy_Capture_Start", "GTAO_Magnate_Yacht_Attack_Soundset", 1)
+    ShowPopupWarning("Zone captured!", "The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.", 5)
 
     RemoveBlip(captureZone[id].blip)
     RemoveBlip(captureZone[id].blip2)
@@ -24,8 +38,9 @@ AddEventHandler("V:ZoneCaptured", function(label, team, id)
     SetBlipScale(captureZone[id].blip, 1.0)
 
 
-    captureZone[id].blip2 = AddBlipForRadius(captureZone[id].pos, 20.0)
+    captureZone[id].blip2 = AddBlipForRadius(captureZone[id].pos, 350.0)
     SetBlipColour(captureZone[id].blip2, BlipsInfo[team].color)
+    SetBlipAlpha(captureZone[id].blip2, 170)
 
     captureZone[id].team = team
 end)
@@ -44,15 +59,16 @@ Citizen.CreateThread(function()
         SetBlipColour(captureZone[k].blip, 55)
         SetBlipScale(captureZone[k].blip, 1.0)
     
-        captureZone[k].blip2 = AddBlipForRadius(captureZone[k].pos, 20.0)
+        captureZone[k].blip2 = AddBlipForRadius(captureZone[k].pos, 350.0)
         SetBlipColour(captureZone[k].blip2, 55)
+        SetBlipAlpha(captureZone[k].blip2, 170)
     end
     while true do
         local IsCaptureZone = false
         if not InCapture then
             for k,v in pairs(captureZone) do
                 if captureZone[k].team ~= player.camp then
-                    if GetDistanceBetweenCoords(v.pos, player.coords, true) < 20.0 then
+                    if GetDistanceBetweenCoords(v.pos, player.coords, true) < 50.0 then
                         InCapture = true
                         StartCapture(k, v.pos)
                         break
@@ -73,7 +89,8 @@ local possibleMusic = {
     "https://www.youtube.com/watch?v=30fUOnV4WPc",
 }
 function StartCapture(id, pos)
-    local oldTime = GetGameTimer()
+    
+    local id = id
 
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "capture", 
@@ -85,24 +102,28 @@ function StartCapture(id, pos)
     Citizen.CreateThread(function()
         while InCapture do
             RageUI.Text({message = "Capture de zone en cours ..."})
-            if GetDistanceBetweenCoords(pos, player.coords, true) > 20.0 then
+            if GetDistanceBetweenCoords(pos, player.coords, true) > 50.0 then
                 InCapture = false
+                TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
             end
 
             if IsEntityDead(player.ped) then
                 InCapture = false
+                TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
             end
             Wait(1)
         end
     end)
 
+    local oldTime = GetGameTimer()
     Citizen.CreateThread(function()
         while InCapture do
-            if oldTime + 5000 < GetGameTimer() then
+            if oldTime + 30*1000 < GetGameTimer() then
                 oldTime = GetGameTimer()
 
                 TriggerServerEvent("V:CapturePoint", id, player.camp)
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+                Wait(5000)
                 InCapture = false
             end
 
