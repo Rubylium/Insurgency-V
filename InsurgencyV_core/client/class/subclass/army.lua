@@ -15,7 +15,7 @@ local ArmyWeapons = {
     "weapon_flaregun",
 }
 
-function JoinArmy()
+function JoinArmy(music)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "army"
@@ -23,10 +23,15 @@ function JoinArmy()
         GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
     end
 
-    TriggerEvent("xsound:stateSound", "play", {
-        soundId = "starting_game", 
-        url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
-        volume = 0.4, 
-        loop = false
-    })
+    if music then
+        TriggerEvent("xsound:stateSound", "play", {
+            soundId = "starting_game", 
+            url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
+            volume = 0.2, 
+            loop = false
+        })
+        TriggerServerEvent("V:JoinArmy")
+    end
+    inGame = true
+    SetEntityInvincible(player.ped, false)
 end
