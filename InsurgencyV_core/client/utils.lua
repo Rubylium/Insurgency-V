@@ -19,6 +19,41 @@ function SpawnVeh(model)
     TaskWarpPedIntoVehicle(player.ped, veh, -1)
 end
 
+function ShowPopupWarning(title, msg, bottom, sec)
+    Citizen.CreateThread(function()
+	    local scaleform = requestScaleformMovie('POPUP_WARNING')
+
+	    BeginScaleformMovieMethod(scaleform, 'SHOW_POPUP_WARNING')
+
+	    PushScaleformMovieMethodParameterFloat(500.0) -- black background
+	    PushScaleformMovieMethodParameterString(title)
+	    PushScaleformMovieMethodParameterString(msg)
+	    PushScaleformMovieMethodParameterString(bottom)
+	    PushScaleformMovieMethodParameterBool(true)
+
+	    EndScaleformMovieMethod()
+
+	    while sec > 0 do
+	    	Citizen.Wait(1)
+	    	sec = sec - 0.01
+
+	    	DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
+	    end
+
+        SetScaleformMovieAsNoLongerNeeded(scaleform)
+    end)
+end
+
+function requestScaleformMovie(movie)
+	local scaleform = RequestScaleformMovie(movie)
+
+	while not HasScaleformMovieLoaded(scaleform) do
+		Citizen.Wait(0)
+	end
+
+	return scaleform
+end
+
 
 
 --=============================================================================
