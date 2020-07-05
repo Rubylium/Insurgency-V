@@ -1,11 +1,12 @@
 
-local BlipsInfo = {
-    ["army"] = {sprite = 590, color 77,},
-    ["resistance"] = {sprite = 543, color = 49,},
+local captureZone = {
+    {label = "Test zone", pos = vector3(13.0, 13.0, 13.0), blip = nil, blip2 = nil, team = "Neutral"},
 }
 
-local captureZone = {
-    {label = "Test zone", pos = vector3(13.0, 13.0, 13.0), blip = nil, blip2 = nil, team = "Neutral"}
+
+local BlipsInfo = {
+    ["army"] = {sprite = 590, color = 77},
+    ["resistance"] = {sprite = 543, color = 49},
 }
 
 RegisterNetEvent("V:ZoneCaptured")
@@ -22,6 +23,7 @@ AddEventHandler("V:ZoneCaptured", function(label, team, id)
     SetBlipColour(captureZone[id].blip, BlipsInfo[team].color)
     SetBlipScale(captureZone[id].blip, 1.0)
 
+
     captureZone[id].blip2 = AddBlipForRadius(captureZone[id].pos, 20.0)
     SetBlipColour(captureZone[id].blip2, BlipsInfo[team].color)
 
@@ -33,6 +35,8 @@ end)
 
 local InCapture = false
 Citizen.CreateThread(function()
+
+    while player.camp == nil do Wait(1) end
     for k,v in pairs(captureZone) do
         captureZone[k].blip = AddBlipForCoord(captureZone[k].pos)
         SetBlipSprite(captureZone[k].blip, 464)
@@ -80,7 +84,7 @@ function StartCapture(id, pos)
     Citizen.CreateThread(function()
         while InCapture do
             RageUI.Text({message = "Capture de zone en cours ..."})
-            if GetDistanceBetweenCoords(v.pos, player.coords, true) > 20.0 then
+            if GetDistanceBetweenCoords(pos, player.coords, true) > 20.0 then
                 InCapture = false
             end
 
