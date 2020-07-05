@@ -16,6 +16,7 @@ local ArmyWeapons = {
 }
 
 function JoinArmy()
+    DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "army"
     for k,v in pairs(ArmyWeapons) do
