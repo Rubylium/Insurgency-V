@@ -15,7 +15,7 @@ function JoinResistance()
         if v ~= "weapon_rpg" then
             GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
         else
-            GiveWeaponToPed(player.ped, GetHashKey(v), 1, 0, 1)
+            GiveWeaponToPed(player.ped, GetHashKey(v), 5, 0, 1)
         end
     end
 end
