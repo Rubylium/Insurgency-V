@@ -11,13 +11,19 @@ function InitDeathHandler()
             exports.spawnmanager:setAutoSpawn(false)
 
             if IsEntityDead(GetPlayerPed(-1)) then
-                isDead = true
+                if not isDead then
+                    isDead = true
+                    local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
+                    SetEntityHealth(clonePed, 0)
+                    SetEntityVisible(player.ped, 0, 0)
+                end
                 count = count + 1
             end
 
 
             if isDead then
                 print(count)
+                SetEntityVisible(player.ped, 0, 0)
                 if count > 1000 then
                     --ShowHelpNotification("Press ~INPUT_PICKUP~ to respawn")
                     RageUI.Text({message = "Press ~b~[E]~s~ to respawn"})
@@ -46,6 +52,8 @@ function InitDeathHandler()
             NetworkResurrectLocalPlayer(-2337.62, 3263.19, 31.83, 240.6, 0, 0)
             JoinArmy()
             DoScreenFadeIn(2500)
+            isDead = false
+            SetEntityVisible(player.ped, 1, 1)
         else
             DoScreenFadeOut(2500)
             while not IsScreenFadedOut() do Wait(1) end
@@ -54,6 +62,8 @@ function InitDeathHandler()
             NetworkResurrectLocalPlayer(2930.63, 4623.93, 47.72, 35.92, 0, 0)
             JoinResistance()
             DoScreenFadeIn(2500)
+            isDead = false
+            SetEntityVisible(player.ped, 1, 1)
         end
     end
 end
