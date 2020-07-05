@@ -24,6 +24,57 @@ local BlipsInfo = {
 }
 
 
+RegisterNetEvent("V:ResetGame")
+AddEventHandler("V:ResetGame", function()
+    for k,v in pairs(captureZone) do
+
+        RemoveBlip(captureZone[k].blip)
+        RemoveBlip(captureZone[k].blip2)
+    end
+
+    captureZone = {
+        {label = "Silo", pos = vector3(2901.66, 4383.41, 50.35), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Crossroad", pos = vector3(2498.99, 4118.77, 37.88), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Color montain", pos = vector3(2482.08, 3757.56, 41.26), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Sandy Shores", pos = vector3(1799.86, 3734.57, 33.29), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Yellow Jack", pos = vector3(1996.03, 3064.16, 4705), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Mine", pos = vector3(2683.63, 2827.97, 40.27), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Montain house", pos = vector3(1737.86, 3038.64, 61.29), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Fuel farm", pos = vector3(634.25, 2908.58, 39.97), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Church", pos = vector3(-329.73, 2823.63, 58.04), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Vacation house", pos = vector3(-258.06, 2195.35, 129.82), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Deposit", pos = vector3(192.47, 2753.58, 43.43), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Camp", pos = vector3(67.5, 3708.79, 39.75), blip = nil, blip2 = nil, team = "Neutral"},
+        {label = "Liquor market", pos = vector3(917.51, 3622.35, 32.47), blip = nil, blip2 = nil, team = "Neutral"},
+    }
+
+    for k,v in pairs(captureZone) do
+
+        RemoveBlip(captureZone[k].blip)
+        RemoveBlip(captureZone[k].blip2)
+
+        captureZone[k].blip = AddBlipForCoord(captureZone[k].pos)
+        SetBlipSprite(captureZone[k].blip, 464)
+        SetBlipColour(captureZone[k].blip, 55)
+        SetBlipScale(captureZone[k].blip, 1.0)
+    
+        captureZone[k].blip2 = AddBlipForRadius(captureZone[k].pos, 350.0)
+        SetBlipColour(captureZone[k].blip2, 55)
+        SetBlipAlpha(captureZone[k].blip2, 170)
+    end
+
+    for v in EnumerateVehicles() do
+        DeleteEntity(v)
+    end
+
+    for v in EnumeratePeds() do
+        if not IsPedAPlayer(v) then
+            DeleteEntity(v)
+        end
+    end
+end)
+
+
 RegisterNetEvent("V:SyncBlips")
 AddEventHandler("V:SyncBlips", function(blips)
     for k,v in pairs(blips) do
@@ -51,7 +102,7 @@ AddEventHandler("V:ZoneCaptured", function(label, team, id)
         PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
         PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
         PlaySoundFrontend(-1, "Enemy_Capture_Start", "GTAO_Magnate_Yacht_Attack_Soundset", 1)
-        ShowPopupWarning("Zone captured!", "The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.", 5)
+        ShowPopupWarning("The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.")
     end
 
     RemoveBlip(captureZone[id].blip)
@@ -95,7 +146,7 @@ Citizen.CreateThread(function()
         if not InCapture then
             for k,v in pairs(captureZone) do
                 if captureZone[k].team ~= player.camp then
-                    if GetDistanceBetweenCoords(v.pos, player.coords, false) < 50.0 then
+                    if GetDistanceBetweenCoords(v.pos, player.coords, true) < 100.0 then
                         InCapture = true
                         StartCapture(k, v.pos)
                         break
@@ -129,7 +180,7 @@ function StartCapture(id, pos)
     Citizen.CreateThread(function()
         while InCapture do
             RageUI.Text({message = "Capture de zone en cours ..."})
-            if GetDistanceBetweenCoords(pos, player.coords, false) > 50.0 then
+            if GetDistanceBetweenCoords(pos, player.coords, true) > 100.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
             end
