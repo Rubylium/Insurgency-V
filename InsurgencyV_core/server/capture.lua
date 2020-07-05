@@ -30,3 +30,9 @@ AddEventHandler("V:CapturePoint", function(id, team)
         TriggerClientEvent("V:ZoneCaptured", -1, captureZone[id].label, captureZone[id].team, id)
     end
 end)
+
+
+RegisterNetEvent("V:RequestBlipSync")
+AddEventHandler("V:RequestBlipSync", function()
+    TriggerClientEvent("V:SyncBlips", source, captureZone)
+end)
