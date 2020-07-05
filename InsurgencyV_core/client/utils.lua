@@ -96,19 +96,17 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        if not IsRadarEnabled() then --> With this new condition it will show you your marker only if the mini-map is disabled.
-            local waypoint = GetFirstBlipInfoId(8)
-            if DoesBlipExist(waypoint) then
-                local myPos = GetEntityCoords(GetPlayerPed(-1))
-                local coord = Citizen.InvokeNative(0xFA7C7F0AADF25D09, waypoint, Citizen.ResultAsVector())
-                local distance = getDistance(myPos, coord)
-                
-                if distance > 999 then
-                    roundOverKm = round(distance)  * math.pow(10, -3)
-                    DrawText3DMarker(coord.x, coord.y, myPos.z, 'V\n' .. roundOverKm.. " kilometres")
-                elseif distance > 0.1 and distance <= 999 then
-                    DrawText3DMarker(coord.x, coord.y, myPos.z, 'V\n' .. round(distance).. " m")
-                end
+        local waypoint = GetFirstBlipInfoId(8)
+        if DoesBlipExist(waypoint) then
+            local myPos = GetEntityCoords(GetPlayerPed(-1))
+            local coord = Citizen.InvokeNative(0xFA7C7F0AADF25D09, waypoint, Citizen.ResultAsVector())
+            local distance = getDistance(myPos, coord)
+            
+            if distance > 999 then
+                roundOverKm = round(distance)  * math.pow(10, -3)
+                DrawText3DMarker(coord.x, coord.y, myPos.z, 'V\n' .. roundOverKm.. " kilometres")
+            elseif distance > 0.1 and distance <= 999 then
+                DrawText3DMarker(coord.x, coord.y, myPos.z, 'V\n' .. round(distance).. " m")
             end
         end
         Citizen.Wait(0)
