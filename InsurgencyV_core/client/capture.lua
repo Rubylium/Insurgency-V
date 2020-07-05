@@ -95,16 +95,18 @@ function StartCapture(id, pos)
         end
     end)
 
-    while InCapture do
-        if oldTime + 5000 < GetGameTimer() then
-            oldTime = GetGameTimer()
+    Citizen.CreateThread(function()
+        while InCapture do
+            if oldTime + 5000 < GetGameTimer() then
+                oldTime = GetGameTimer()
 
-            TriggerServerEvent("V:CapturePoint", id, player.camp)
-            TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
-            InCapture = false
+                TriggerServerEvent("V:CapturePoint", id, player.camp)
+                TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+                InCapture = false
+            end
+
+            Wait(0)
         end
-
-        Wait(0)
     end
     
 end
