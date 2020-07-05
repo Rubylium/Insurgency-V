@@ -18,4 +18,11 @@ function JoinResistance()
             GiveWeaponToPed(player.ped, GetHashKey(v), 5, 0, 1)
         end
     end
+
+    TriggerEvent("xsound:stateSound", "play", {
+        soundId = "starting_game", 
+        url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
+        volume = 0.4, 
+        loop = false
+    })
 end
