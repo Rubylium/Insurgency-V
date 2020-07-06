@@ -37,10 +37,11 @@ function WinGame(team, army, resitance)
     DisplayRadar(false)
     local displayText = true
     Citizen.CreateThread(function()
+        TaskWanderInArea(player.ped, player.coords, 500.0, 9999999999.0, 1.0)
         local cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
         RenderScriptCams(1, 0, 0, 0, 0)
         
-        local offset = {1.0, 1.0, 1.0}
+        local offset = {2.0, 2.0, 2.0}
         offset[1] = offset[1] + 0.01
         offset[2] = offset[2] + 0.01
         offset[3] = offset[3] + 0.01
@@ -73,6 +74,7 @@ function WinGame(team, army, resitance)
         end
     end)
     Wait(20*1000)
+    ClearPedTasks(player.ped)
     RenderScriptCams(0, 0, 0, 0, 0)
     displayText = false
     InCinematicMenu = true
