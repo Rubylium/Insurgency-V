@@ -26,6 +26,66 @@ local vehsZone = {
 local InsideMenu = false
 function InitVehsZone()
     while player.coords == nil do Wait(100) end
+
+
+    Citizen.CreateThread(function()
+        while true do
+            local veh, dst = GetClosestVehicle()
+            if dst < 2.5 then
+                if not IsPedInAnyVehicle(player.ped, false) then
+                    if IsControlJustPressed(1, 23) then
+                        print("Pressed to enter veh")
+                        local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
+                        for i = -1,place do
+                            if IsVehicleSeatFree(veh, i) then
+                                print("Seat ~b~"..i.."~s~ free, entering now.")
+                                TaskWarpPedIntoVehicle(player.ped, veh, i)
+                                break
+                            end
+                        end
+                    end
+                else
+                    if IsControlJustPressed(1, 23) then
+                        print("Pressed to leave veh")
+                        TaskLeaveVehicle(player.ped, veh, 16)
+                    end
+
+                    if IsControlJustPressed(1, 175) then
+                        print("Pressed to change seat")
+                        local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
+                        local seat
+                        for i = -1,place do
+                            if GetPedInVehicleSeat(veh, i) == player.ped then
+                                seat = i
+                            end
+                        end
+
+                        if seat ~= nil then 
+                            local tryingSeat = seat + 1
+                            local try = 0
+                            while try <= place do
+                                try = try + 1
+                                if IsVehicleSeatFree(veh, tryingSeat) then
+                                    TaskWarpPedIntoVehicle(player.ped, veh, tryingSeat)
+                                    break
+                                else
+                                    tryingSeat = tryingSeat + 1
+                                    if tryingSeat > place then
+                                        tryingSeat = -1
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                Wait(1)
+            else
+                Wait(150)
+            end
+        end
+    end)
+
+
     Citizen.CreateThread(function()
         while true do
             local IsCloseTo = false
