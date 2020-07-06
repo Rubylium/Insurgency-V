@@ -31,7 +31,7 @@ function InitVehsZone()
     Citizen.CreateThread(function()
         while true do
             local veh, dst = GetClosestVehicle()
-            if dst < 2.5 then
+            if dst < 4.0 then
                 if not IsPedInAnyVehicle(player.ped, false) then
                     if IsControlJustPressed(1, 23) then
                         print("Pressed to enter veh")
@@ -80,7 +80,7 @@ function InitVehsZone()
                 end
                 Wait(1)
             else
-                Wait(150)
+                Wait(50)
             end
         end
     end)
