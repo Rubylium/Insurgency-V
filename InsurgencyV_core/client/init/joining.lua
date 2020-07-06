@@ -11,6 +11,8 @@ Citizen.CreateThread(function()
     InitVehsZone()
     InitDeathHandler()
     initCinematic()
+
+    NetworkSetTalkerProximity(15.0)
 end)
 
 local cam = nil
@@ -53,7 +55,11 @@ function initCinematic()
                 SetCamFov(cam, 50.0)
                 SetFocusArea(r.pos, 0.0, 0.0, 0.0)
                 ShakeCam(cam, "HAND_SHAKE", 0.2)
-                Citizen.Wait(15000)
+                local count = 0
+                while count < 15000 do
+                    count = count + 1
+                    Wait(0)
+                end
                 if not InCinematic then 
                     StopGameplayCamShaking(false)
                     return 
