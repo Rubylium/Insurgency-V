@@ -10,11 +10,13 @@ points = {
 RegisterNetEvent("V:JoinArmy")
 AddEventHandler("V:JoinArmy", function()
     army = army + 1
+    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices())
 end)
 
 RegisterNetEvent("V:JoinResistance")
 AddEventHandler("V:JoinResistance", function()
     resitance = resitance + 1 
+    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices())
 end)
 
 local WaitingForEndGame = false

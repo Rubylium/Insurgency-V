@@ -15,8 +15,22 @@ function InitWatermark()
             SetTextDropshadow(2, 2, 0, 0, 0)
             SetTextEdge(1, 0, 0, 0, 205)
             SetTextEntry("STRING")
-            AddTextComponentString("Insurgency V - DEV 0.0.2")
-            DrawText(0.455, 0.970)
+            AddTextComponentString("Insurgency V - DEV 0.0.2 - "..players.." players online.")
+            DrawText(0.420, 0.970)
+
+            if inGame then
+                SetTextColour(255, 255, 255, 190)
+
+                SetTextFont(4)
+                SetTextScale(0.4, 0.4)
+                SetTextWrap(0.0, 1.0)
+                SetTextCentre(false)
+                SetTextDropshadow(2, 2, 0, 0, 0)
+                SetTextEdge(1, 0, 0, 0, 205)
+                SetTextEntry("STRING")
+                AddTextComponentString("Army: "..points.army.." - Resistance: "..points.resitance)
+                DrawText(0.155, 0.950)
+            end
         end
     end)
 end
