@@ -102,7 +102,11 @@ AddEventHandler("V:ZoneCaptured", function(label, team, id)
         PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
         PlaySoundFrontend(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET", 1)
         PlaySoundFrontend(-1, "Enemy_Capture_Start", "GTAO_Magnate_Yacht_Attack_Soundset", 1)
-        ShowPopupWarning("The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.")
+        if team == "resistance" then
+            ShowPopupWarning("The ~r~"..team.."~s~ has planted a bomb on ~b~"..label.."~s~ zone! Run!")
+        else
+            ShowPopupWarning("The ~b~"..team.."~s~ has captured ~b~"..label.."~s~ zone.")
+        end
     end
 
     RemoveBlip(captureZone[id].blip)
