@@ -31,4 +31,5 @@ function JoinResistance(music)
     end
     inGame = true
     SetEntityInvincible(player.ped, false)
+    JoinResistanceTeam()
 end

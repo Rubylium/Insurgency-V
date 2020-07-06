@@ -2,8 +2,8 @@ Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
 
 
-    NetworkSetFriendlyFireOption(true)
-    SetCanAttackFriendly(PlayerPedId(), true, true)
+    --NetworkSetFriendlyFireOption(true)
+    --SetCanAttackFriendly(PlayerPedId(), true, true)
 
     InitPlayerClass()
     InitWatermark()
