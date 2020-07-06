@@ -36,6 +36,35 @@ function requestScaleformMovie(movie)
 end
 
 
+GetVehicles = function()
+	local vehicles = {}
+
+	for vehicle in EnumerateVehicles() do
+		table.insert(vehicles, vehicle)
+	end
+
+	return vehicles
+end
+
+GetClosestVehicle = function()
+	local vehicles        = GetVehicles()
+	local closestDistance = -1
+	local closestVehicle  = -1
+	local coords          = player.coords
+
+	for i=1, #vehicles, 1 do
+		local vehicleCoords = GetEntityCoords(vehicles[i])
+		local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+
+		if closestDistance == -1 or closestDistance > distance then
+			closestVehicle  = vehicles[i]
+			closestDistance = distance
+		end
+	end
+
+	return closestVehicle, closestDistance
+end
+
 
 --=============================================================================
 -->  Made by Super.Cool.Ninja
