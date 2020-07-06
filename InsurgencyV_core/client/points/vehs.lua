@@ -15,7 +15,7 @@ local vehsZone = {
         pos = vector3(-2333.72, 3257.47, 32.83),
         vehs = {
             "insurgent3",
-            "apc",
+            --"apc",
             "barracks3",
             "crusader",
             "halftrack",
