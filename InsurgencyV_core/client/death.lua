@@ -2,11 +2,12 @@
 exports.spawnmanager:setAutoSpawn(false)
 function InitDeathHandler()
     local isDead = false
+    local deathCam = nil
+    local offset = {0.0, -2.0, 2.0}
 
     Citizen.CreateThread(function()
         while player.health == nil do Wait(1) end
         local count = 0
-        
 
         while true do
             
@@ -18,6 +19,14 @@ function InitDeathHandler()
                     local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
                     SetEntityHealth(clonePed, 0)
                     SetEntityVisible(player.ped, 0, 0)
+                    deathCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
+                    RenderScriptCams(1, 0, 0, 0, 0)
+                    offset = {2.0, 2.0, 2.0}
+                    local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
+                    SetCamCoord(deathCam, coords)
+                    PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
+                    SetCamFov(deathCam, 50.0)
+                    ShakeCam(deathCam, "HAND_SHAKE", 0.2)
                 end
                 count = count + 1
             end
@@ -27,9 +36,15 @@ function InitDeathHandler()
                 SetEntityVisible(player.ped, 0, 0)
                 if count > 1000 then
                     count = 0
+                    RenderScriptCams(0, 0, 0, 0, 0)
                     Respawn()
                 else
                     RageUI.Text({message = "You are dead, you have to wait befor respawn..."})
+                    offset[2] = offset[2] - 0.01
+                    offset[3] = offset[3] + 0.01
+                    local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
+                    SetCamCoord(deathCam, coords)
+                    PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
                 end
                 Wait(1)
             else
