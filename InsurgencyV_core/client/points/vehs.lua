@@ -1,4 +1,4 @@
-
+Limit = 0
 local vehsZone = {
     {
         pos = vector3(2925.28, 4641.83, 48.54),
@@ -9,6 +9,7 @@ local vehsZone = {
             "technical",
             "buzzard2",
         },
+        color = 49,
     },
     {
         pos = vector3(-2333.72, 3257.47, 32.83),
@@ -20,6 +21,7 @@ local vehsZone = {
             "halftrack",
             "buzzard2",
         },
+        color = 153,
     },
 }
 
@@ -95,7 +97,7 @@ function InitVehsZone()
                         IsCloseTo = true
                         ShowHelpNotification("Press ~INPUT_PICKUP~ to open vehicle spawn menu")
                         if IsControlJustReleased(0, 38) then
-                            OpenVehMenu(v.vehs)
+                            OpenVehMenu(v.vehs, v.color)
                         end
                     end
                 end
@@ -115,7 +117,7 @@ function InitVehsZone()
         InsideMenu = false
     end;
 
-    function OpenVehMenu(vehs)
+    function OpenVehMenu(vehs, color)
         InsideMenu = true
         RageUI.Visible(RMenu:Get('core', 'vehs'), true)
         Citizen.CreateThread(function()
@@ -125,7 +127,12 @@ function InitVehsZone()
                     for k,v in pairs(vehs) do
                         RageUI.ButtonWithStyle("Spawn an "..v, nil, {}, true, function(_, _, s)
                             if s then
-                                SpawnVeh(v)
+                                if Limit < 2 then
+                                    Limit = Limit + 1
+                                    SpawnVeh(v, color)
+                                else
+                                    ShowPopupWarning("Tu à sortie trop de véhicule")
+                                end
                             end
                         end)
                     end
