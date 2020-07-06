@@ -9,3 +9,8 @@ RegisterCommand("reset", function(source, args, rawCommand)
         army = 0
     end
 end, true)
+
+
+function DeleteEntityYes(net)
+    Citizen.InvokeNative(`DELETE_ENTITY` & 0xFFFFFFFF, net)
+end
