@@ -166,6 +166,9 @@ local possibleMusic = {
     "https://www.youtube.com/watch?v=k61-CexDaDY",
     "https://www.youtube.com/watch?v=30fUOnV4WPc",
 }
+
+
+local CaptureNpcs = {}
 function StartCapture(id, pos)
     
     local id = id
@@ -179,16 +182,53 @@ function StartCapture(id, pos)
 
     Citizen.CreateThread(function()
         while InCapture do
-            RageUI.Text({message = "Capture de zone en cours ..."})
+            RageUI.Text({message = "Capturing zone in progress ..."})
             if GetDistanceBetweenCoords(pos, player.coords, true) > 100.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+                for k,v in pairs(CaptureNpcs) do
+                    local ent = NetworkGetEntityFromNetworkId(v)
+                    DeleteEntity(ent)
+                    while DoesEntityExist(ent) do
+                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
+                        DeleteEntity(ent)
+                        Wait(1)
+                    end
+                    table.remove(CaptureNpcs, k)
+                end
             end
 
             if IsEntityDead(player.ped) then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+                for k,v in pairs(CaptureNpcs) do
+                    local ent = NetworkGetEntityFromNetworkId(v)
+                    DeleteEntity(ent)
+                    while DoesEntityExist(ent) do
+                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
+                        DeleteEntity(ent)
+                        Wait(1)
+                    end
+                    table.remove(CaptureNpcs, k)
+                end
             end
+
+
+            local r = math.random(1,500)
+            if r == 500 then
+                print("Spawning attacker ped")
+                local z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
+                local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.5)
+                LoadModel("csb_hao")
+                local ped = CreatePed(4, GetHashKey("csb_hao"), pos, 100.0, 1, 0)
+                GiveWeaponToPed(ped, GetHashKey("weapon_appistol"), 255, 0, 1)
+                TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
+                --local blip = AddBlipForEntity(ped)
+                table.insert(CaptureNpcs, PedToNet(ped))
+            end
+
+
+
             Wait(1)
         end
     end)
@@ -201,6 +241,16 @@ function StartCapture(id, pos)
 
                 TriggerServerEvent("V:CapturePoint", id, player.camp)
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+                for k,v in pairs(CaptureNpcs) do
+                    local ent = NetworkGetEntityFromNetworkId(v)
+                    DeleteEntity(ent)
+                    while DoesEntityExist(ent) do
+                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
+                        DeleteEntity(ent)
+                        Wait(1)
+                    end
+                    table.remove(CaptureNpcs, k)
+                end
                 Wait(5000)
                 InCapture = false
             end
