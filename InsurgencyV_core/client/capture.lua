@@ -214,14 +214,14 @@ function StartCapture(id, pos)
             end
 
 
-            local r = math.random(1,500)
-            if r == 500 then
+            local r = math.random(1,1000)
+            if r == 1000 then
                 print("Spawning attacker ped")
                 local z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
                 local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.5)
                 LoadModel("csb_hao")
                 local ped = CreatePed(4, GetHashKey("csb_hao"), pos, 100.0, 1, 0)
-                GiveWeaponToPed(ped, GetHashKey("weapon_appistol"), 255, 0, 1)
+                GiveWeaponToPed(ped, GetHashKey("weapon_pistol"), 255, 0, 1)
                 TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
                 --local blip = AddBlipForEntity(ped)
                 table.insert(CaptureNpcs, PedToNet(ped))
@@ -251,6 +251,7 @@ function StartCapture(id, pos)
                     end
                     table.remove(CaptureNpcs, k)
                 end
+                CreateCaptureExplosion(pos)
                 Wait(5000)
                 InCapture = false
             end
@@ -258,5 +259,23 @@ function StartCapture(id, pos)
             Wait(0)
         end
     end)
+
+
+    function CreateCaptureExplosion(pos)
+        if player.camp == "resistance" then
+            Citizen.CreateThread(function()
+                Wait(15*1000)
+                print("Exploaded")
+                AddExplosion(pos, 31, 500.0, true, false, 1.0, false)
+                Wait(1000)
+                AddExplosion(pos, 31, 500.0, true, false, 4.0, false)
+                AddExplosion(pos, 31, 500.0, true, false, 4.0, false)
+                for i=1,10 do
+                    local _pos = vector3(pos.x + math.random(-35,35), pos.y + math.random(-35,35), pos.z)
+                    AddExplosion(_pos, 31, 500.0, true, false, 0.0, false)
+                end
+            end)
+        end
+    end
     
 end
