@@ -20,12 +20,12 @@ function JoinResistance(music)
     end
 
     if music then
-        TriggerEvent("xsound:stateSound", "play", {
-            soundId = "starting_game", 
-            url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
-            volume = 0.2, 
-            loop = false
-        })
+        --TriggerEvent("xsound:stateSound", "play", {
+        --    soundId = "starting_game", 
+        --    url = "https://www.youtube.com/watch?v=BawTAoOldBU", 
+        --    volume = 0.2, 
+        --    loop = false
+        --})
         TriggerServerEvent("V:JoinResistance")
     end
     inGame = true
