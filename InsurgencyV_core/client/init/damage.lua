@@ -7,6 +7,7 @@ local weapons = {
     {weap = "weapon_assaultrifle", multi = 2.6},
     {weap = "weapon_carbinerifle", multi = 2.3},
     {weap = "weapon_rpg", multi = 50.0},
+    {weap = "weapon_stickybomb", multi = 50.0},
 }
 
 
