@@ -40,8 +40,8 @@ function InitDeathHandler()
                     Respawn()
                 else
                     RageUI.Text({message = "You are dead, you have to wait befor respawn..."})
-                    offset[2] = offset[2] - 0.01
-                    offset[3] = offset[3] + 0.01
+                    offset[2] = offset[2] + 0.01
+                    offset[3] = offset[3] + 0.03
                     local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
                     SetCamCoord(deathCam, coords)
                     PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
@@ -78,6 +78,7 @@ function InitDeathHandler()
             SetEntityVisible(player.ped, 1, 1)
             RenderScriptCams(0, 0, 0, 0, 0)
         end
+        Limit = 0
         StopAudioScenes()
     end
 end
