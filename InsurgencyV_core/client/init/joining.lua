@@ -53,7 +53,7 @@ function initCinematic()
                 SetCamFov(cam, 50.0)
                 SetFocusArea(r.pos, 0.0, 0.0, 0.0)
                 ShakeCam(cam, "HAND_SHAKE", 0.2)
-                Wait(15000)
+                Citizen.Wait(15000)
                 if not InCinematic then 
                     StopGameplayCamShaking(false)
                     return 
