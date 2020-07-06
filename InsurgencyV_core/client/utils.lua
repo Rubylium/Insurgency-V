@@ -13,10 +13,12 @@ function ShowHelpNotification(msg, thisFrame)
 end
 
 
-function SpawnVeh(model)
+function SpawnVeh(model, color)
     LoadModel(model)
     local veh = CreateVehicle(GetHashKey(model), player.coords, GetEntityHeading(player.ped), 1, 0)
+    SetVehicleColours(veh, color, color)
     TaskWarpPedIntoVehicle(player.ped, veh, -1)
+    
 end
 
 function ShowPopupWarning(msg)
