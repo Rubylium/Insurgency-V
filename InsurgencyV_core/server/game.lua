@@ -17,13 +17,6 @@ AddEventHandler("V:JoinResistance", function()
     resitance = resitance + 1 
 end)
 
-function DeleteEntityYes(net)
-    Citizen.InvokeNative(`DELETE_ENTITY` & 0xFFFFFFFF, net)
-end
-
-
-
-
 local WaitingForEndGame = false
 Citizen.CreateThread(function()
     while true do
