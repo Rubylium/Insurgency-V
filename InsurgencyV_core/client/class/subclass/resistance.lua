@@ -4,7 +4,8 @@
 local ResistanceWeapons = {
     "weapon_assaultrifle",
     "weapon_pistol",
-    "weapon_rpg"
+    "weapon_rpg",
+    "weapon_stickybomb",
 }
 
 function JoinResistance(music)
