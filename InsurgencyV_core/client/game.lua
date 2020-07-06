@@ -54,7 +54,7 @@ function WinGame(team, army, resitance)
         while displayText do
             Wait(1)
 
-            offset[1] = offset[1] + 0.01
+            offset[1] = offset[1] - 0.02
             offset[2] = offset[2] + 0.01
             offset[3] = offset[3] + 0.01
             local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
