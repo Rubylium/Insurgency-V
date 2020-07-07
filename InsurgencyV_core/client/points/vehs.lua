@@ -3,23 +3,25 @@ local vehsZone = {
     {
         pos = vector3(2925.28, 4641.83, 48.54),
         vehs = {
-            "bodhi2",
-            "dune3",
-            "nightshark",
-            "technical",
-            "buzzard2",
+            {model = "bodhi2", point = 50,},
+            {model = "dune3", point = 100,},
+            {model = "nightshark", point = 500,},
+            {model = "technical", point = 250,},
+            {model = "buzzard2", point = 1000,},
+            {model = "bf400", point = 0,},
         },
         color = 49,
     },
     {
-        pos = vector3(-2333.72, 3257.47, 32.83),
+        pos = vector3(195.66, 2708.7, 42.3),
         vehs = {
-            "insurgent3",
-            --"apc",
-            "barracks3",
-            "crusader",
-            "halftrack",
-            "buzzard2",
+            {model = "insurgent3", point = 500,},
+            {model = "barracks3", point = 50,},
+            {model = "crusader", point = 20,},
+            {model = "halftrack", point = 150,},
+            {model = "buzzard2", point = 1000,},
+            {model = "barrage", point = 150,},
+            {model = "blazer4", point = 0,},
         },
         color = 153,
     },
@@ -36,7 +38,7 @@ function InitVehsZone()
             if dst < 4.0 then
                 DisableControlAction(1, 23, true)
                 if not IsPedInAnyVehicle(player.ped, false) then
-                    if IsControlJustPressed(1, 23) then
+                    if IsDisabledControlJustReleased(1, 23) then
                         print("Pressed to enter veh")
                         local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
                         for i = -1,place do
@@ -48,12 +50,12 @@ function InitVehsZone()
                         end
                     end
                 else
-                    if IsControlJustPressed(1, 23) then
+                    if IsDisabledControlJustPressed(1, 23) then
                         print("Pressed to leave veh")
-                        TaskLeaveVehicle(player.ped, veh, 16)
+                        TaskLeaveVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 16)
                     end
 
-                    if IsControlJustReleased(1, 175) then
+                    if IsDisabledControlJustReleased(1, 175) then
                         print("Pressed to change seat")
                         local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
                         local seat
@@ -125,17 +127,35 @@ function InitVehsZone()
             while InsideMenu do
                 Wait(1)
                 RageUI.IsVisible(RMenu:Get('core', 'vehs'), false, false, false, function()
+                    if player.camp == "army" then
+                        RageUI.Separator("Army: ~b~"..points.army)
+                    else
+                        RageUI.Separator("Resistance: ~b~"..points.army)
+                    end
                     for k,v in pairs(vehs) do
-                        RageUI.ButtonWithStyle("Spawn an "..v, nil, {}, true, function(_, _, s)
-                            if s then
-                                if Limit < 2 then
-                                    Limit = Limit + 1
-                                    SpawnVeh(v, color)
-                                else
-                                    ShowPopupWarning("Tu à sortie trop de véhicule")
+                        if player.camp == "army" then
+                            RageUI.ButtonWithStyle("Spawn an "..v.model, "~b~"..v.point.." team points needed.", {}, v.point <= points.army, function(_, _, s)
+                                if s then
+                                    if Limit < 2 then
+                                        Limit = Limit + 1
+                                        SpawnVeh(v.model, color)
+                                    else
+                                        ShowPopupWarning("You already have too many vehicle out.")
+                                    end
                                 end
-                            end
-                        end)
+                            end)
+                        else
+                            RageUI.ButtonWithStyle("Spawn an "..v.model, "~b~"..v.point.." team points needed.", {}, v.point <= points.resitance, function(_, _, s)
+                                if s then
+                                    if Limit < 2 then
+                                        Limit = Limit + 1
+                                        SpawnVeh(v.model, color)
+                                    else
+                                        ShowPopupWarning("You already have too many vehicle out.")
+                                    end
+                                end
+                            end)
+                        end
                     end
 
 
