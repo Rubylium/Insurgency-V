@@ -7,7 +7,7 @@ local vehsZone = {
             {model = "dune3", point = 400,},
             {model = "nightshark", point = 1000,},
             {model = "technical", point = 600,},
-            {model = "buzzard2", point = 2000,},
+            {model = "buzzard", point = 2000,},
             {model = "bf400", point = 0,},
         },
         color = 49,
@@ -19,7 +19,7 @@ local vehsZone = {
             {model = "barracks3", point = 200,},
             {model = "crusader", point = 150,},
             {model = "halftrack", point = 500,},
-            {model = "buzzard2", point = 2000,},
+            {model = "buzzard", point = 2000,},
             {model = "barrage", point = 200,},
             {model = "blazer4", point = 0,},
         },
@@ -51,12 +51,21 @@ function InitVehsZone()
                         end
                     end
                 else
+                    if not NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+                        Wait(1500)
+                        print(NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)))
+                        if not NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+                            DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+                        end
+                    end
+
+                    SetPlayerVehicleDamageModifier(GetPlayerIndex(), 5.0)
                     if IsDisabledControlJustPressed(1, 23) then
                         print("Pressed to leave veh")
                         TaskLeaveVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 16)
                         Wait(500)
                     end
-
+    
                     if IsDisabledControlJustReleased(1, 175) then
                         print("Pressed to change seat")
                         local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
@@ -66,7 +75,7 @@ function InitVehsZone()
                                 seat = i
                             end
                         end
-
+    
                         if seat ~= nil then 
                             local tryingSeat = seat + 1
                             local try = 0
@@ -84,6 +93,8 @@ function InitVehsZone()
                             end
                         end
                     end
+                    
+                    
                 end
                 Wait(1)
             else
