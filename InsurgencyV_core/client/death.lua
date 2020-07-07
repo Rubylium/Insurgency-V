@@ -18,8 +18,8 @@ function InitDeathHandler()
             if IsEntityDead(GetPlayerPed(-1)) then
                 if not isDead then
                     isDead = true
-                    local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
-                    SetEntityHealth(clonePed, 0)
+                    --local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
+                    --SetEntityHealth(clonePed, 0)
                     SetEntityVisible(player.ped, 0, 0)
                     deathCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
                     RenderScriptCams(1, 0, 0, 0, 0)
