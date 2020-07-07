@@ -31,7 +31,7 @@ Citizen.CreateThread(function()
                 end
             end
             TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices())
-            if points.army > 5000 or points.resitance > 5000 then WaitingForEndGame = true end
+            if points.army > 3000 or points.resitance > 3000 then WaitingForEndGame = true end
         end
         print("Army: "..points.army.." vs Resistance: "..points.resitance)
         Wait(5000)
