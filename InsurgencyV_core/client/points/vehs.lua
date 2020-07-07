@@ -34,6 +34,7 @@ function InitVehsZone()
         while true do
             local veh, dst = GetClosestVehicle()
             if dst < 4.0 then
+                DisableControlAction(1, 23, true)
                 if not IsPedInAnyVehicle(player.ped, false) then
                     if IsControlJustPressed(1, 23) then
                         print("Pressed to enter veh")
@@ -52,7 +53,7 @@ function InitVehsZone()
                         TaskLeaveVehicle(player.ped, veh, 16)
                     end
 
-                    if IsControlJustPressed(1, 175) then
+                    if IsControlJustReleased(1, 175) then
                         print("Pressed to change seat")
                         local place = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
                         local seat
