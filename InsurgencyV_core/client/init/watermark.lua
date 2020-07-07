@@ -15,10 +15,14 @@ function InitWatermark()
             SetTextDropshadow(2, 2, 0, 0, 0)
             SetTextEdge(1, 0, 0, 0, 205)
             SetTextEntry("STRING")
-            AddTextComponentString("Insurgency V - DEV 0.0.4 - "..players.." players online.")
+            AddTextComponentString("Insurgency V - DEV 0.0.5 - "..players.." players online.")
             DrawText(0.420, 0.970)
 
             if inGame then
+
+                -- Debug idk where i should add that 
+                
+
                 SetTextColour(255, 255, 255, 190)
 
                 SetTextFont(4)
