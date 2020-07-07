@@ -140,6 +140,7 @@ Citizen.CreateThread(function()
                 if captureZone[k].team ~= player.camp then
                     if GetDistanceBetweenCoords(v.pos, player.coords, true) < 100.0 then
                         InCapture = true
+                        IsCaptureZone = true
                         StartCapture(k, v.pos)
                         break
                     end
@@ -238,13 +239,13 @@ function StartCapture(id, pos)
         if player.camp == "resistance" then
             Citizen.CreateThread(function()
                 Wait(15*1000)
-                AddExplosion(pos, 29, 150.0, true, false, 1.0, false)
+                AddExplosion(pos, 26, 150.0, true, false, 1.0, false)
                 Wait(1000)
-                AddExplosion(pos, 29, 150.0, true, false, 4.0, false)
-                AddExplosion(pos, 29, 150.0, true, false, 4.0, false)
+                AddExplosion(pos, 26, 150.0, true, false, 4.0, false)
+                AddExplosion(pos, 26, 150.0, true, false, 4.0, false)
                 for i=1,35 do
                     local _pos = vector3(pos.x + math.random(-40,40), pos.y + math.random(-40,40), pos.z)
-                    AddExplosion(_pos, 29, 150.0, true, false, 0.0, false)
+                    AddExplosion(_pos, 26, 150.0, true, false, 0.0, false)
                 end
                 
             end)
