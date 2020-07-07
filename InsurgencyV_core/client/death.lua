@@ -35,7 +35,7 @@ function InitDeathHandler()
 
             if isDead then
                 SetEntityVisible(player.ped, 0, 0)
-                if count > 1000 then
+                if count > 700 then
                     count = 0
                     Respawn()
                 else
@@ -59,9 +59,9 @@ function InitDeathHandler()
         if player.camp == "army" then
             DoScreenFadeOut(2500)
             while not IsScreenFadedOut() do Wait(1) end
-            SetEntityCoords(player.ped, -2337.62, 3263.19, 31.83, 0.0, 0.0, 0.0, 0)
-            SetEntityHeading(player.ped, 240.6)
-            NetworkResurrectLocalPlayer(-2337.62, 3263.19, 31.83, 240.6, 0, 0)
+            SetEntityCoords(player.ped, 182.16, 2708.5, 41.29, 0.0, 0.0, 0.0, 0)
+            SetEntityHeading(player.ped, 278.6)
+            NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 240.6, 0, 0)
             JoinArmy(false)
             DoScreenFadeIn(2500)
             isDead = false
