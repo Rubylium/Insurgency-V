@@ -9,7 +9,7 @@ points = {
 
 
 RegisterNetEvent("V:Sync")
-AddEventHandler("V:Sync", function(r, a, point, num)
+AddEventHandler("V:Sync", function(r, a, point, num, endGameDueToMaxZoneCaptured)
     resitance = r
     army = a
     points = point
@@ -19,6 +19,10 @@ AddEventHandler("V:Sync", function(r, a, point, num)
         WinGame("army", points.army, points.resitance)
     elseif point.resitance >= 3000 then
         WinGame("resistance", points.army, points.resitance)
+    end
+
+    if endGameDueToMaxZoneCaptured then
+        WinGame("Max Zone", points.army, points.resitance)
     end
 end)
 
