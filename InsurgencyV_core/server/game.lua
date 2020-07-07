@@ -22,15 +22,29 @@ end)
 local WaitingForEndGame = false
 Citizen.CreateThread(function()
     while true do
+        local armyZone = 0
+        local resistanceZone = 0
+        local endGameDueToMaxZoneCaptured = false
+
         if not WaitingForEndGame then
             for k,v in pairs(captureZone) do
                 if v.team == "army" then
+                    armyZone = armyZone + 1
                     points.army = points.army + 5
                 elseif v.team == "resistance" then
+                    resistanceZone = resistanceZone + 1
                     points.resitance = points.resitance + 5
                 end
             end
-            TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices())
+
+            if armyZone == #captureZone then
+                endGameDueToMaxZoneCaptured = true
+            end
+
+            if resistanceZone == #captureZone then
+                endGameDueToMaxZoneCaptured = true
+            end
+            TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), endGameDueToMaxZoneCaptured)
             if points.army > 3000 or points.resitance > 3000 then WaitingForEndGame = true end
         end
         print("Army: "..points.army.." vs Resistance: "..points.resitance)
