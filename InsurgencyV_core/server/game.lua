@@ -58,17 +58,16 @@ AddEventHandler("V:EndGame", function()
         {label = "Silo", team = "Neutral"},
         {label = "Crossroad", team = "Neutral"},
         {label = "Color montain", team = "Neutral"},
-        {label = "Sandy Shores",team = "Neutral"},
-        {label = "Yellow Jack", team = "Neutral"},
-        {label = "Mine", team = "Neutral"},
+        {label = "Sandy Shores", team = "Neutral"},
         {label = "Montain house", team = "Neutral"},
-        {label = "Fuel farm",  team = "Neutral"},
-        {label = "Church", team = "Neutral"},
-        {label = "Vacation house", team = "Neutral"},
-        {label = "Deposit", team = "Neutral"},
-        {label = "Camp", team = "Neutral"},
+        {label = "Fuel farm", team = "Neutral"},
         {label = "Liquor market", team = "Neutral"},
     }
+
+    local vehs = GetAllVehicles()
+    for k,v in pairs(vehs) do
+        DeleteEntityYes(v)
+    end
 
 
     TriggerClientEvent("V:ResetGame", -1)
