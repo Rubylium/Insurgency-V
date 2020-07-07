@@ -12,6 +12,12 @@ Citizen.CreateThread(function()
     InitDeathHandler()
     initCinematic()
 
+    ClearOverrideWeather()
+    ClearWeatherTypePersist()
+    SetWeatherTypePersist("EXTRASUNNY")
+    SetWeatherTypeNow("EXTRASUNNY")
+    SetWeatherTypeNowPersist("EXTRASUNNY")
+    NetworkOverrideClockTime(8, 12, 0)
     exports.spawnmanager:forceRespawn()
     NetworkSetTalkerProximity(15.0)
 end)
@@ -25,6 +31,12 @@ local cams = {
     {pos = vector3(-2357.99, 3242.93, 93.6), lookAt = vector3(-1889.62, 2982.23, 48.01)},
 }
 
+
+local loadingScreenMusic = {
+    "https://www.youtube.com/watch?v=GGYw-anK2BM",
+    "https://www.youtube.com/watch?v=Jme5hYgXbNY&list=PL953Es57AbWdc4oqOC5HWLWGD7Xvk1qYd&index=1",
+    "https://www.youtube.com/watch?v=WjqmdZWHLtc",
+}
 
 function initCinematic()
     DisplayRadar(false)
@@ -43,12 +55,13 @@ function initCinematic()
         Citizen.CreateThread(function()
             TriggerEvent("xsound:stateSound", "play", {
                 soundId = "cinematic", 
-                url = "https://www.youtube.com/watch?v=Jme5hYgXbNY&list=PL953Es57AbWdc4oqOC5HWLWGD7Xvk1qYd&index=1", 
-                volume = 0.6, 
+                url = loadingScreenMusic[math.random(1,#loadingScreenMusic)], 
+                volume = 0.5, 
                 loop = true
             })
             DoScreenFadeIn(2500)
             while InCinematic do
+                SetPlayerInvincible(GetPlayerIndex(), true)
                 DoScreenFadeIn(2500)
                 local r = cams[math.random(1,#cams)]
                 SetCamCoord(cam, r.pos)
@@ -134,6 +147,7 @@ function initCinematic()
                             SetCamCoord(cam, 194.24, 2709.49, 42.3)
                             SetCamFov(cam, 15.0)
                             PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
+                            SetPlayerInvincible(GetPlayerIndex(), false)
                         end
                     end, RMenu:Get('core', 'army_choose'))
                     RageUI.ButtonWithStyle("Join the resistance", nil, {RightLabel = "~b~"..resitance.."/"..players}, true, function(_, _, s)
@@ -164,7 +178,7 @@ function initCinematic()
                             SetCamCoord(cam, 2925.28, 4632.62, 48.55)
                             SetCamFov(cam, 15.0)
                             PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
-
+                            SetPlayerInvincible(GetPlayerIndex(), false)
                         end
                     end, RMenu:Get('core', 'resistance_choose'))
                 end, function()
