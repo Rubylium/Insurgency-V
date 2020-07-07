@@ -5,14 +5,8 @@ local captureZone = {
     {label = "Crossroad", pos = vector3(2498.99, 4118.77, 37.88), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Color montain", pos = vector3(2482.08, 3757.56, 41.26), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Sandy Shores", pos = vector3(1799.86, 3734.57, 33.29), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Yellow Jack", pos = vector3(1996.03, 3064.16, 4705), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Mine", pos = vector3(2683.63, 2827.97, 40.27), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Montain house", pos = vector3(1737.86, 3038.64, 61.29), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Fuel farm", pos = vector3(634.25, 2908.58, 39.97), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Church", pos = vector3(-329.73, 2823.63, 58.04), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Vacation house", pos = vector3(-258.06, 2195.35, 129.82), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Deposit", pos = vector3(192.47, 2753.58, 43.43), blip = nil, blip2 = nil, team = "Neutral"},
-    {label = "Camp", pos = vector3(67.5, 3708.79, 39.75), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Liquor market", pos = vector3(917.51, 3622.35, 32.47), blip = nil, blip2 = nil, team = "Neutral"},
 }
 
@@ -37,14 +31,8 @@ AddEventHandler("V:ResetGame", function()
         {label = "Crossroad", pos = vector3(2498.99, 4118.77, 37.88), blip = nil, blip2 = nil, team = "Neutral"},
         {label = "Color montain", pos = vector3(2482.08, 3757.56, 41.26), blip = nil, blip2 = nil, team = "Neutral"},
         {label = "Sandy Shores", pos = vector3(1799.86, 3734.57, 33.29), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Yellow Jack", pos = vector3(1996.03, 3064.16, 4705), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Mine", pos = vector3(2683.63, 2827.97, 40.27), blip = nil, blip2 = nil, team = "Neutral"},
         {label = "Montain house", pos = vector3(1737.86, 3038.64, 61.29), blip = nil, blip2 = nil, team = "Neutral"},
         {label = "Fuel farm", pos = vector3(634.25, 2908.58, 39.97), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Church", pos = vector3(-329.73, 2823.63, 58.04), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Vacation house", pos = vector3(-258.06, 2195.35, 129.82), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Deposit", pos = vector3(192.47, 2753.58, 43.43), blip = nil, blip2 = nil, team = "Neutral"},
-        {label = "Camp", pos = vector3(67.5, 3708.79, 39.75), blip = nil, blip2 = nil, team = "Neutral"},
         {label = "Liquor market", pos = vector3(917.51, 3622.35, 32.47), blip = nil, blip2 = nil, team = "Neutral"},
     }
 
@@ -222,11 +210,12 @@ function StartCapture(id, pos)
             if r == 1000 then
                 print("Spawning attacker ped")
                 local z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
-                local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.5)
+                local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 3.0)
                 LoadModel("csb_hao")
                 local ped = CreatePed(4, GetHashKey("csb_hao"), pos, 100.0, 1, 0)
                 GiveWeaponToPed(ped, GetHashKey("weapon_pistol"), 255, 0, 1)
                 TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
+                SetPedAccuracy(ped, 50)
                 --local blip = AddBlipForEntity(ped)
                 table.insert(CaptureNpcs, PedToNet(ped))
             end
