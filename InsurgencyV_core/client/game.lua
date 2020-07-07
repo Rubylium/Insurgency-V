@@ -30,7 +30,7 @@ function WinGame(team, army, resitance)
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "cinematic", 
         url = "https://www.youtube.com/watch?v=rHtvlftBDHM", 
-        volume = 0.35, 
+        volume = 0.15, 
         loop = false
     })
     Wait(45*1000)
