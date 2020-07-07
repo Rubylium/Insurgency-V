@@ -2,8 +2,16 @@ Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
 
 
-    --NetworkSetFriendlyFireOption(true)
-    --SetCanAttackFriendly(PlayerPedId(), true, true)
+    -- spawn the player
+    local ped = PlayerPedId()
+    -- V requires setting coords as well
+    SetEntityCoordsNoOffset(ped, 182.16, 2708.5, 41.29, false, false, false, true)
+    NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 100.0, true, true, false)
+    -- gamelogic-style cleanup stuff
+    ClearPedTasksImmediately(ped)
+    --SetEntityHealth(ped, 300) -- TODO: allow configuration of this?
+    RemoveAllPedWeapons(ped) -- TODO: make configurable (V behavior?)
+    ClearPlayerWantedLevel(PlayerId())
 
     InitPlayerClass()
     InitWatermark()
@@ -29,6 +37,8 @@ local lockedControls = {24,25,69,70}
 local cams = {
     {pos = vector3(729.41, 2528.05, 86.65), lookAt = vector3(1084.22, 2711.88, 44.7)},
     {pos = vector3(-2357.99, 3242.93, 93.6), lookAt = vector3(-1889.62, 2982.23, 48.01)},
+    {pos = vector3(258.3376, 2665.6, 48.59), lookAt = vector3(188.1, 2717.0, 41.5)},
+    {pos = vector3(1711.5, 3625.1, 45.2), lookAt = vector3(1794.6, 3716.0, 33.35)},
 }
 
 
@@ -62,6 +72,9 @@ function initCinematic()
             DoScreenFadeIn(2500)
             while InCinematic do
                 SetPlayerInvincible(GetPlayerIndex(), true)
+                NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 100.0, true, true, false)
+
+                
                 DoScreenFadeIn(2500)
                 local r = cams[math.random(1,#cams)]
                 SetCamCoord(cam, r.pos)
@@ -69,9 +82,9 @@ function initCinematic()
                 SetCamFov(cam, 50.0)
                 SetFocusArea(r.pos, 0.0, 0.0, 0.0)
                 ShakeCam(cam, "HAND_SHAKE", 0.2)
-                local count = 0
-                while count < 15000 do
-                    count = count + 1
+                local count_ = 0
+                while count_ < 1000 do
+                    count_ = count_ + 1
                     Wait(0)
                 end
                 if not InCinematic then 
