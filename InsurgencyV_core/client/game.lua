@@ -15,9 +15,9 @@ AddEventHandler("V:Sync", function(r, a, point, num)
     points = point
     players = num
 
-    if points.army >= 5000 then
+    if points.army >= 3000 then
         WinGame("army", points.army, points.resitance)
-    elseif point.resitance >= 5000 then
+    elseif point.resitance >= 3000 then
         WinGame("resistance", points.army, points.resitance)
     end
 end)
@@ -37,7 +37,12 @@ function WinGame(team, army, resitance)
     DisplayRadar(false)
     local displayText = true
     Citizen.CreateThread(function()
-        TaskWanderInArea(player.ped, player.coords, 500.0, 9999999999.0, 1.0)
+        
+        if IsPedInAnyVehicle(player.ped, false) then
+            TaskVehicleDriveWander(player.ped, GetVehiclePedIsIn(player.ped, false), 150.0, 1074528293)
+        else
+            TaskWanderInArea(player.ped, player.coords, 500.0, 9999999999.0, 1.0)
+        end
         local cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
         RenderScriptCams(1, 0, 0, 0, 0)
         
