@@ -122,15 +122,8 @@ function initCinematic()
                 RageUI.IsVisible(RMenu:Get('core', 'cinematic'), false, false, false, function()
                     RageUI.ButtonWithStyle("Join the army", nil, {RightLabel = "~b~"..army.."/"..players}, true, function(_, _, s)
                         if s then
-                            TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
                             DoScreenFadeOut(100)
                             while not IsScreenFadedOut() do Wait(1) end
-                            TriggerEvent("xsound:stateSound", "play", {
-                                soundId = "cinematic", 
-                                url = "https://www.youtube.com/watch?v=TnogrK1Sn-A&", 
-                                volume = 0.5, 
-                                loop = true
-                            })
 
                             LoadModel("s_m_y_marine_03")
                             SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_marine_03"))
@@ -152,16 +145,8 @@ function initCinematic()
                     end, RMenu:Get('core', 'army_choose'))
                     RageUI.ButtonWithStyle("Join the resistance", nil, {RightLabel = "~b~"..resitance.."/"..players}, true, function(_, _, s)
                         if s then
-
-                            TriggerEvent("xsound:stateSound", "destroy", {soundId = "cinematic",})
                             DoScreenFadeOut(100)
                             while not IsScreenFadedOut() do Wait(1) end
-                            TriggerEvent("xsound:stateSound", "play", {
-                                soundId = "cinematic", 
-                                url = "https://www.youtube.com/watch?v=Ul9Da5c2UXw", 
-                                volume = 0.2, 
-                                loop = true
-                            })
 
                             LoadModel("s_m_y_blackops_01")
                             SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_blackops_01"))
