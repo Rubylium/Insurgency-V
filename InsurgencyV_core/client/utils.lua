@@ -15,7 +15,7 @@ end
 
 function SpawnVeh(model, color)
     LoadModel(model)
-    local veh = CreateVehicle(GetHashKey(model), player.coords, GetEntityHeading(player.ped), 1, 0)
+    local veh = CreateVehicle(GetHashKey(model), GetEntityCoords(GetPlayerPed(-1)), GetEntityHeading(player.ped), 1, 0)
     SetVehicleColours(veh, color, color)
     TaskWarpPedIntoVehicle(player.ped, veh, -1)
     
