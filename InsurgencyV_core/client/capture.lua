@@ -1,6 +1,6 @@
 inGame = false
 
-local captureZone = {
+captureZone = {
     {label = "Silo", pos = vector3(2901.66, 4383.41, 50.35), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Crossroad", pos = vector3(2498.99, 4118.77, 37.88), blip = nil, blip2 = nil, team = "Neutral"},
     {label = "Color montain", pos = vector3(2482.08, 3757.56, 41.26), blip = nil, blip2 = nil, team = "Neutral"},
