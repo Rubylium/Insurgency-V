@@ -3,11 +3,11 @@ local vehsZone = {
     {
         pos = vector3(2925.28, 4641.83, 48.54),
         vehs = {
-            {model = "bodhi2", point = 50,},
-            {model = "dune3", point = 100,},
-            {model = "nightshark", point = 500,},
-            {model = "technical", point = 250,},
-            {model = "buzzard2", point = 1000,},
+            {model = "bodhi2", point = 300,},
+            {model = "dune3", point = 400,},
+            {model = "nightshark", point = 1000,},
+            {model = "technical", point = 600,},
+            {model = "buzzard2", point = 2000,},
             {model = "bf400", point = 0,},
         },
         color = 49,
@@ -16,11 +16,11 @@ local vehsZone = {
         pos = vector3(195.66, 2708.7, 42.3),
         vehs = {
             {model = "insurgent3", point = 500,},
-            {model = "barracks3", point = 50,},
-            {model = "crusader", point = 20,},
-            {model = "halftrack", point = 150,},
-            {model = "buzzard2", point = 1000,},
-            {model = "barrage", point = 150,},
+            {model = "barracks3", point = 200,},
+            {model = "crusader", point = 150,},
+            {model = "halftrack", point = 500,},
+            {model = "buzzard2", point = 2000,},
+            {model = "barrage", point = 200,},
             {model = "blazer4", point = 0,},
         },
         color = 153,
@@ -45,6 +45,7 @@ function InitVehsZone()
                             if IsVehicleSeatFree(veh, i) then
                                 print("Seat ~b~"..i.."~s~ free, entering now.")
                                 TaskWarpPedIntoVehicle(player.ped, veh, i)
+                                Wait(500)
                                 break
                             end
                         end
@@ -53,6 +54,7 @@ function InitVehsZone()
                     if IsDisabledControlJustPressed(1, 23) then
                         print("Pressed to leave veh")
                         TaskLeaveVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 16)
+                        Wait(500)
                     end
 
                     if IsDisabledControlJustReleased(1, 175) then
