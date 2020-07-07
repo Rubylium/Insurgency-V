@@ -244,6 +244,7 @@ function StartCapture(id, pos)
                     end
                     table.remove(CaptureNpcs, k)
                 end
+                XNL_AddPlayerXP(1000)
                 CreateCaptureExplosion(pos)
                 Wait(5000)
                 InCapture = false

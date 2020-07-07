@@ -7,4 +7,5 @@ AddEventHandler("V:GetKillFeed", function(text)
         multiline = true,
         args = {"Insurgency V", text}
       })
+      XNL_AddPlayerXP(100)
 end)
