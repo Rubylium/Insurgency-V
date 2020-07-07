@@ -12,6 +12,7 @@ Citizen.CreateThread(function()
     InitDeathHandler()
     initCinematic()
 
+    exports.spawnmanager:forceRespawn()
     NetworkSetTalkerProximity(15.0)
 end)
 
@@ -118,8 +119,8 @@ function initCinematic()
                                 loop = true
                             })
 
-                            LoadModel("s_m_y_blackops_02")
-                            SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_blackops_02"))
+                            LoadModel("s_m_y_marine_03")
+                            SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_marine_03"))
                             player.ped = GetPlayerPed(-1)
                             SetPedRandomProps(player.ped)
                             GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
