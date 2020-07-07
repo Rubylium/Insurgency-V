@@ -10,6 +10,14 @@ RegisterCommand("reset", function(source, args, rawCommand)
     end
 end, true)
 
+RegisterNetEvent("DeleteEntity")
+AddEventHandler("DeleteEntity", function(table)
+    for k,v in pairs(table) do
+        local net = NetworkGetEntityFromNetworkId(v)
+        Citizen.InvokeNative(`DELETE_ENTITY` & 0xFFFFFFFF, net)
+    end
+end)
+
 
 function DeleteEntityYes(net)
     Citizen.InvokeNative(`DELETE_ENTITY` & 0xFFFFFFFF, net)
