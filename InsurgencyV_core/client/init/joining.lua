@@ -148,8 +148,8 @@ function initCinematic()
                                 loop = true
                             })
 
-                            LoadModel("ig_russiandrunk")
-                            SetPlayerModel(GetPlayerIndex(), GetHashKey("ig_russiandrunk"))
+                            LoadModel("u_m_y_militarybum")
+                            SetPlayerModel(GetPlayerIndex(), GetHashKey("u_m_y_militarybum"))
                             player.ped = GetPlayerPed(-1)
                             SetPedRandomProps(player.ped)
                             GiveWeaponToPed(player.ped, GetHashKey("weapon_assaultrifle"), 255, 0, true)
