@@ -149,8 +149,8 @@ function initCinematic()
                                 loop = true
                             })
 
-                            LoadModel("u_m_y_militarybum")
-                            SetPlayerModel(GetPlayerIndex(), GetHashKey("u_m_y_militarybum"))
+                            LoadModel("s_m_y_blackops_01")
+                            SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_blackops_01"))
                             player.ped = GetPlayerPed(-1)
                             SetPedRandomProps(player.ped)
                             GiveWeaponToPed(player.ped, GetHashKey("weapon_assaultrifle"), 255, 0, true)
