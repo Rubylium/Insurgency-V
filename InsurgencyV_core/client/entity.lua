@@ -95,14 +95,6 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		for v in EnumeratePeds() do
-			if v ~= GetPlayerPed(-1) then
-				if not IsPedAPlayer(v) then
-					SetEntityHealth(v, 0)
-					SetPedToRagdoll(v, 10000, 10000, 2, 0, 0, 0)
-				end
-			end
-		end
 
 		Wait(1500)
 		for k,v in pairs(particles) do
