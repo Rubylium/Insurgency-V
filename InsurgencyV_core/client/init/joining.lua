@@ -127,11 +127,11 @@ function initCinematic()
 
                             DoScreenFadeIn(1500)
                             InCinematic = false
-                            SetEntityCoords(player.ped, -2337.62, 3263.19, 31.83, 0.0, 0.0, 0.0, 0)
-                            SetEntityHeading(player.ped, 240.6)
-                            SetFocusArea(-2337.62, 3263.19, 32.83, 0.0, 0.0, 0.0)
+                            SetEntityCoords(player.ped, 182.16, 2708.5, 41.29, 0.0, 0.0, 0.0, 0)
+                            SetEntityHeading(player.ped, 278.6)
+                            SetFocusArea(182.16, 2708.5, 41.29, 0.0, 0.0, 0.0)
 
-                            SetCamCoord(cam, -2328.69, 3257.94, 32.83)
+                            SetCamCoord(cam, 194.24, 2709.49, 42.3)
                             SetCamFov(cam, 15.0)
                             PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
                         end
