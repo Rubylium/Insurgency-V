@@ -146,6 +146,10 @@ Citizen.CreateThread(function()
                 end
             end
         end
+
+        if not InCapture then
+            TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+        end
         Wait(500)
     end
 end)
@@ -178,37 +182,18 @@ function StartCapture(id, pos)
             if GetDistanceBetweenCoords(pos, player.coords, true) > 100.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
-                for k,v in pairs(CaptureNpcs) do
-                    local ent = NetworkGetEntityFromNetworkId(v)
-                    DeleteEntity(ent)
-                    while DoesEntityExist(ent) do
-                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
-                        DeleteEntity(ent)
-                        Wait(1)
-                    end
-                    table.remove(CaptureNpcs, k)
-                end
+                TriggerServerEvent("DeleteEntity", CaptureNpcs)
             end
 
             if IsEntityDead(player.ped) then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
-                for k,v in pairs(CaptureNpcs) do
-                    local ent = NetworkGetEntityFromNetworkId(v)
-                    DeleteEntity(ent)
-                    while DoesEntityExist(ent) do
-                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
-                        DeleteEntity(ent)
-                        Wait(1)
-                    end
-                    table.remove(CaptureNpcs, k)
-                end
+                TriggerServerEvent("DeleteEntity", CaptureNpcs)
             end
 
 
             local r = math.random(1,1000)
             if r == 1000 then
-                print("Spawning attacker ped")
                 local _, z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
                 local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.0)
                 LoadModel("csb_hao")
@@ -234,22 +219,16 @@ function StartCapture(id, pos)
 
                 TriggerServerEvent("V:CapturePoint", id, player.camp)
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
-                for k,v in pairs(CaptureNpcs) do
-                    local ent = NetworkGetEntityFromNetworkId(v)
-                    DeleteEntity(ent)
-                    while DoesEntityExist(ent) do
-                        NetworkRequestControlOfEntity(ent) -- Not the best way i know
-                        DeleteEntity(ent)
-                        Wait(1)
-                    end
-                    table.remove(CaptureNpcs, k)
-                end
+                TriggerServerEvent("DeleteEntity", CaptureNpcs)
                 XNL_AddPlayerXP(1000)
                 CreateCaptureExplosion(pos)
                 Wait(5000)
                 InCapture = false
             end
 
+            if captureZone[id].team == player.team then
+                InCapture = false
+            end
             Wait(0)
         end
     end)
@@ -259,13 +238,13 @@ function StartCapture(id, pos)
         if player.camp == "resistance" then
             Citizen.CreateThread(function()
                 Wait(15*1000)
-                AddExplosion(pos, 29, 500.0, true, false, 1.0, false)
+                AddExplosion(pos, 29, 150.0, true, false, 1.0, false)
                 Wait(1000)
-                AddExplosion(pos, 29, 500.0, true, false, 4.0, false)
-                AddExplosion(pos, 29, 500.0, true, false, 4.0, false)
+                AddExplosion(pos, 29, 150.0, true, false, 4.0, false)
+                AddExplosion(pos, 29, 150.0, true, false, 4.0, false)
                 for i=1,35 do
                     local _pos = vector3(pos.x + math.random(-40,40), pos.y + math.random(-40,40), pos.z)
-                    AddExplosion(_pos, 29, 500.0, true, false, 0.0, false)
+                    AddExplosion(_pos, 29, 150.0, true, false, 0.0, false)
                 end
                 
             end)
