@@ -20,7 +20,7 @@ function InitDeathHandler()
                     isDead = true
                     --local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
                     --SetEntityHealth(clonePed, 0)
-                    SetEntityVisible(player.ped, 0, 0)
+                    --SetEntityVisible(player.ped, 0, 0)
                     deathCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
                     RenderScriptCams(1, 0, 0, 0, 0)
                     offset = {0.0, 0.0, 0.0}
@@ -39,9 +39,8 @@ function InitDeathHandler()
 
 
             if isDead then
-                SetEntityVisible(player.ped, 0, 0)
-                print(count)
-                if count > 700 then
+                --SetEntityVisible(player.ped, 0, 0)
+                if count > 300 then
                     Respawn()
                     count = 0
                 else
@@ -86,6 +85,10 @@ function InitDeathHandler()
         Citizen.CreateThread(function()
             while InRespawnMenu do
                 Wait(1)
+
+                deathCoords = vector3(deathCoords.x - 0.03, deathCoords.y + 0.02, deathCoords.z + 0.03)
+                SetCamCoord(deathCam, deathCoords)
+                PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
 
                 RageUI.IsVisible(RMenu:Get('core', 'respawn_veh'), false, false, false, function()
                     if player.camp == "army" then
