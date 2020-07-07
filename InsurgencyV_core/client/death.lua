@@ -4,10 +4,12 @@ function InitDeathHandler()
     isDead = false
     local deathCam = nil
     local offset = {0.0, -4.0, 4.0}
+    local deathCoords = nil
 
     Citizen.CreateThread(function()
         while player.health == nil do Wait(1) end
         local count = 0
+        
 
         while true do
             
@@ -21,9 +23,10 @@ function InitDeathHandler()
                     SetEntityVisible(player.ped, 0, 0)
                     deathCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
                     RenderScriptCams(1, 0, 0, 0, 0)
-                    offset = {2.0, 2.0, 2.0}
-                    local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
-                    SetCamCoord(deathCam, coords)
+                    offset = {0.0, 0.0, 0.0}
+                    deathCoords = GetEntityCoords(GetPlayerPed(-1))
+                    deathCoords = vector3(deathCoords.x + 2.0, deathCoords.y + 2.0, deathCoords.z + 2.0)
+                    SetCamCoord(deathCam, deathCoords)
                     PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
                     SetCamFov(deathCam, 50.0)
                     ShakeCam(deathCam, "HAND_SHAKE", 0.2)
@@ -43,16 +46,15 @@ function InitDeathHandler()
                     count = 0
                 else
                     RageUI.Text({message = "You are dead, you have to wait befor respawn..."})
-                    offset[1] = offset[1] + 0.01
-                    offset[2] = offset[2] + 0.02
-                    offset[3] = offset[3] - 0.03
-                    local coords = GetOffsetFromEntityInWorldCoords(player.ped, offset[1], offset[2], offset[3])
-                    SetCamCoord(deathCam, coords)
+                    deathCoords = vector3(deathCoords.x - 0.03, deathCoords.y + 0.02, deathCoords.z + 0.03)
+                    SetCamCoord(deathCam, deathCoords)
                     PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
                 end
                 Wait(1)
             else
-                ClearFocus()
+                if not isDead and not InRespawnMenu and not InCinematicMenu then
+                    ClearFocus()
+                end
                 SetEntityVisible(player.ped, 1, 1)
                 Wait(50)
             end
@@ -79,10 +81,12 @@ function InitDeathHandler()
         NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 240.6, 0, 0)
         RageUI.Visible(RMenu:Get('core', 'respawn'), true)
         InRespawnMenu = true
+        SetFocusArea(deathCoords, 0.0, 0.0, 0.0)
 
         Citizen.CreateThread(function()
             while InRespawnMenu do
                 Wait(1)
+
                 RageUI.IsVisible(RMenu:Get('core', 'respawn_veh'), false, false, false, function()
                     if player.camp == "army" then
                         RageUI.ButtonWithStyle("No vehicle needed.", nil, {}, true, function(_, h, s)
