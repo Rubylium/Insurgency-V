@@ -184,12 +184,14 @@ function StartCapture(id, pos)
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
                 TriggerServerEvent("DeleteEntity", CaptureNpcs)
+                CaptureNpcs = {}
             end
 
             if IsEntityDead(player.ped) then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
                 TriggerServerEvent("DeleteEntity", CaptureNpcs)
+                CaptureNpcs = {}
             end
 
 
@@ -197,13 +199,23 @@ function StartCapture(id, pos)
             if r == 1000 then
                 local _, z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
                 local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.0)
-                LoadModel("csb_hao")
-                local ped = CreatePed(4, GetHashKey("csb_hao"), pos, 100.0, 1, 0)
-                GiveWeaponToPed(ped, GetHashKey("weapon_pistol"), 255, 0, 1)
-                TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
-                SetPedAccuracy(ped, 50)
-                --local blip = AddBlipForEntity(ped)
-                table.insert(CaptureNpcs, PedToNet(ped))
+                if player.camp == "resistance" then
+                    LoadModel("s_m_y_marine_03")
+                    local ped = CreatePed(4, GetHashKey("s_m_y_marine_03"), pos, 100.0, 1, 0)
+                    GiveWeaponToPed(ped, GetHashKey("weapon_smg"), 255, 0, 1)
+                    TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
+                    SetPedAccuracy(ped, 1)
+                    --local blip = AddBlipForEntity(ped)
+                    table.insert(CaptureNpcs, PedToNet(ped))
+                else
+                    LoadModel("s_m_y_blackops_01")
+                    local ped = CreatePed(4, GetHashKey("s_m_y_blackops_01"), pos, 100.0, 1, 0)
+                    GiveWeaponToPed(ped, GetHashKey("weapon_microsmg"), 255, 0, 1)
+                    TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
+                    SetPedAccuracy(ped, 1)
+                    --local blip = AddBlipForEntity(ped)
+                    table.insert(CaptureNpcs, PedToNet(ped))
+                end
             end
 
 
@@ -221,6 +233,7 @@ function StartCapture(id, pos)
                 TriggerServerEvent("V:CapturePoint", id, player.camp)
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
                 TriggerServerEvent("DeleteEntity", CaptureNpcs)
+                CaptureNpcs = {}
                 XNL_AddPlayerXP(1000)
                 CreateCaptureExplosion(pos)
                 Wait(5000)
