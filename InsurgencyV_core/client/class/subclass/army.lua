@@ -5,6 +5,7 @@ armypeds = {
 
 ArmyClass = {
     ["Rifleman"] = {
+        limite = 1000,
         weapons = {
             {name = "weapon_pistol_mk2", ammo = 255},
             {name = "weapon_flaregun", ammo = 255},
@@ -12,6 +13,7 @@ ArmyClass = {
         },
     },
     ["Engineer"] = {
+        limite = 2,
         weapons = {
             {name = "weapon_hominglauncher", ammo = 2},
             {name = "weapon_pistol_mk2", ammo = 255},
@@ -22,6 +24,7 @@ ArmyClass = {
         },
     },
     ["Recon"] = {
+        limite = 1,
         weapons = {
             {name = "weapon_pistol_mk2", ammo = 255},
             {name = "weapon_flaregun", ammo = 255},
@@ -29,6 +32,7 @@ ArmyClass = {
         },
     },
     ["Medic"] = {
+        limite = 10,
         weapons = {
             {name = "weapon_assaultsmg", ammo = 255},
             {name = "weapon_appistol", ammo = 255},
@@ -38,6 +42,7 @@ ArmyClass = {
 }  
 
 function JoinArmy(music)
+    SetCamActive(cam, false)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "army"
@@ -50,6 +55,7 @@ function JoinArmy(music)
         --    loop = false
         --})
         TriggerServerEvent("V:JoinArmy")
+        TriggerServerEvent("V:JoinClass", player.camp, player.class)
     end
 
     if player.class ~= nil then

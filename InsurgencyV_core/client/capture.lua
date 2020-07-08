@@ -149,7 +149,7 @@ Citizen.CreateThread(function()
         end
 
         if not InCapture then
-            TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
+            TriggerEvent("xsound:stateSound", "pause", {soundId = "capture", })
         end
         Wait(500)
     end
@@ -173,7 +173,7 @@ function StartCapture(id, pos)
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "capture", 
         url = possibleMusic[math.random(1,#possibleMusic)], 
-        volume = 0.2, 
+        volume = 0.10, 
         loop = true
     })
 
@@ -196,7 +196,7 @@ function StartCapture(id, pos)
 
 
             local r = math.random(1,1000)
-            if r == 1000 then
+            if r >= 998 then
                 local _, z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
                 local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.0)
                 if player.camp == "resistance" then
@@ -205,6 +205,7 @@ function StartCapture(id, pos)
                     GiveWeaponToPed(ped, GetHashKey("weapon_smg"), 255, 0, 1)
                     TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
                     SetPedAccuracy(ped, 1)
+                    SetEntityHealth(ped, 500)
                     --local blip = AddBlipForEntity(ped)
                     table.insert(CaptureNpcs, PedToNet(ped))
                 else
@@ -252,13 +253,13 @@ function StartCapture(id, pos)
         if player.camp == "resistance" then
             Citizen.CreateThread(function()
                 Wait(15*1000)
-                AddExplosion(pos, 26, 150.0, true, false, 1.0, false)
+                AddExplosion(pos, 37, 150.0, true, false, 1.0, false)
                 Wait(1000)
-                AddExplosion(pos, 26, 150.0, true, false, 4.0, false)
-                AddExplosion(pos, 26, 150.0, true, false, 4.0, false)
+                AddExplosion(pos, 37, 150.0, true, false, 4.0, false)
+                AddExplosion(pos, 37, 150.0, true, false, 4.0, false)
                 for i=1,35 do
                     local _pos = vector3(pos.x + math.random(-40,40), pos.y + math.random(-40,40), pos.z)
-                    AddExplosion(_pos, 26, 150.0, true, false, 0.0, false)
+                    AddExplosion(_pos, 37, 150.0, true, false, 0.0, false)
                 end
                 
             end)

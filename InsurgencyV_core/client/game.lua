@@ -8,12 +8,29 @@ points = {
 }
 
 
+classe = {
+    resistance = {
+        ["Rifleman"] = 0,
+        ["Engineer"] = 0,
+        ["Recon"] = 0,
+        ["Medic"] = 0,
+    },
+    army = {
+        ["Rifleman"] = 0,
+        ["Engineer"] = 0,
+        ["Recon"] = 0,
+        ["Medic"] = 0,
+    },
+}
+
+
 RegisterNetEvent("V:Sync")
-AddEventHandler("V:Sync", function(r, a, point, num, endGameDueToMaxZoneCaptured)
+AddEventHandler("V:Sync", function(r, a, point, num, endGameDueToMaxZoneCaptured, class)
     resitance = r
     army = a
     points = point
     players = num
+    classe = class
 
     if points.army >= 3000 then
         WinGame("army", points.army, points.resitance)
@@ -34,7 +51,7 @@ function WinGame(team, army, resitance)
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "cinematic", 
         url = "https://www.youtube.com/watch?v=rHtvlftBDHM", 
-        volume = 0.15, 
+        volume = 0.10, 
         loop = false
     })
     Wait(45*1000)

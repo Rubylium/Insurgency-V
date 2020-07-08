@@ -10,6 +10,7 @@ local ResistanceWeapons = {
 
 ResistanceClass = {
     ["Rifleman"] = {
+        limite = 1000,
         weapons = {
             {name = "weapon_pistol_mk2", ammo = 255},
             {name = "weapon_flaregun", ammo = 255},
@@ -17,6 +18,7 @@ ResistanceClass = {
         },
     },
     ["Engineer"] = {
+        limite = 2,
         weapons = {
             {name = "weapon_rpg", ammo = 2},
             {name = "weapon_pistol_mk2", ammo = 255},
@@ -27,6 +29,7 @@ ResistanceClass = {
         },
     },
     ["Recon"] = {
+        limite = 1,
         weapons = {
             {name = "weapon_pistol_mk2", ammo = 255},
             {name = "weapon_flaregun", ammo = 255},
@@ -34,6 +37,7 @@ ResistanceClass = {
         },
     },
     ["Medic"] = {
+        limite = 10,
         weapons = {
             {name = "weapon_assaultsmg", ammo = 255},
             {name = "weapon_appistol", ammo = 255},
@@ -43,6 +47,7 @@ ResistanceClass = {
 }  
 
 function JoinResistance(music)
+    SetCamActive(cam, false)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "resistance"
@@ -54,6 +59,7 @@ function JoinResistance(music)
         --    volume = 0.2, 
         --    loop = false
         --})
+        TriggerServerEvent("V:JoinClass", player.camp, player.class)
         TriggerServerEvent("V:JoinResistance")
     end
 

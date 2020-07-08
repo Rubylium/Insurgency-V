@@ -30,6 +30,7 @@ function InitPlayerClass()
 
     -- Main player loop
     Citizen.CreateThread(function()
+        Wait(5000)
         while true do
             player.ped = GetPlayerPed(-1)
             player.veh = GetVehiclePedIsIn(player.ped, 0)
@@ -37,6 +38,13 @@ function InitPlayerClass()
             player.health = GetEntityHealth(player.ped)
             player.name = GetPlayerName(GetPlayerIndex())
             player.coords = GetEntityCoords(player.ped)
+
+            ClearPlayerWantedLevel(GetPlayerIndex())
+
+            if GetEntityModel(player.ped) ~= GetHashKey("s_m_y_marine_03") or GetEntityModel(player.ped) ~= GetHashKey("s_m_y_blackops_01")then
+                OpenCinematicMenu()
+                Wait(3000)
+            end
             Wait(1000)
         end
     end)

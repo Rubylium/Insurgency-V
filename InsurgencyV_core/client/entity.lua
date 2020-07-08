@@ -111,6 +111,8 @@ Citizen.CreateThread(function()
 						SetBlipColour(blip, 67)
 						table.insert(blips, blip)
 						SetPedRelationshipGroupHash(v, 'army')
+					elseif GetEntityModel(v) == GetHashKey("s_m_y_blackops_01") then
+						SetPedRelationshipGroupHash(v, 'resistance')
 					end
 				--end
 			end
@@ -123,6 +125,8 @@ Citizen.CreateThread(function()
 						SetBlipColour(blip, 67)
 						table.insert(blips, blip)
 						SetPedRelationshipGroupHash(v, 'resistance')
+					elseif GetEntityModel(v) == GetHashKey("s_m_y_marine_03") then
+						SetPedRelationshipGroupHash(v, 'army')
 					end
 				--end
 			end
