@@ -70,5 +70,5 @@ function JoinArmy(music)
 
     inGame = true
     SetEntityInvincible(player.ped, false)
-    JoinArmyTeam()
+    --JoinArmyTeam()
 end

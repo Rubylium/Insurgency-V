@@ -74,5 +74,5 @@ function JoinResistance(music)
 
     inGame = true
     SetEntityInvincible(player.ped, false)
-    JoinResistanceTeam()
+    --JoinResistanceTeam()
 end
