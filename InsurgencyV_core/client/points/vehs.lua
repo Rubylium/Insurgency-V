@@ -35,7 +35,7 @@ function InitVehsZone()
     Citizen.CreateThread(function()
         while true do
             local veh, dst = GetClosestVehicle()
-            if dst < 4.0 then
+            if dst < 15.0 then
                 DisableControlAction(1, 23, true)
                 if not IsPedInAnyVehicle(player.ped, false) then
                     if IsDisabledControlJustReleased(1, 23) then
