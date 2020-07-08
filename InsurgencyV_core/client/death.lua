@@ -30,7 +30,8 @@ function InitDeathHandler()
                     PointCamAtCoord(deathCam, GetEntityCoords(GetPlayerPed(-1)))
                     SetCamFov(deathCam, 50.0)
                     ShakeCam(deathCam, "HAND_SHAKE", 0.2)
-                    StartAudioScene("MP_LOBBY_SCENE")
+                    StartAudioScene("MP_LEADERBOARD_SCENE")
+                    StartScreenEffect("MP_Killstreak", 99999999, true)
                 end
                 count = count + 1
             else
@@ -41,6 +42,7 @@ function InitDeathHandler()
             if isDead then
                 --SetEntityVisible(player.ped, 0, 0)
                 if count > 300 then
+                    StartScreenEffect("MP_Killstreak_Out", 5000, false)
                     Respawn()
                     count = 0
                 else
@@ -75,9 +77,9 @@ function InitDeathHandler()
 
     function Respawn()
         isDead = false
-        SetEntityCoords(player.ped, 182.16, 2708.5, 41.29, 0.0, 0.0, 0.0, 0)
-        SetEntityHeading(player.ped, 278.6)
-        NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 240.6, 0, 0)
+        --SetEntityCoords(player.ped, 182.16, 2708.5, 41.29, 0.0, 0.0, 0.0, 0)
+        --SetEntityHeading(player.ped, 278.6)
+        --NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 240.6, 0, 0)
         RageUI.Visible(RMenu:Get('core', 'respawn'), true)
         InRespawnMenu = true
         SetFocusArea(deathCoords, 0.0, 0.0, 0.0)
