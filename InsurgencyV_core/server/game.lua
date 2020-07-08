@@ -171,7 +171,7 @@ AddEventHandler("V:EndGame", function()
 
 
     TriggerClientEvent("V:ResetGame", -1)
-    Wait(20*1000)
+    Wait(120*1000)
     JustRestared = false
     WaitingForEndGame = false
 end)
