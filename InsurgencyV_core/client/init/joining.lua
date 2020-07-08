@@ -13,6 +13,9 @@ Citizen.CreateThread(function()
     RemoveAllPedWeapons(ped) -- TODO: make configurable (V behavior?)
     ClearPlayerWantedLevel(PlayerId())
 
+    NetworkSetFriendlyFireOption(true)
+    SetCanAttackFriendly(PlayerPedId(), true, true)
+
     InitWatermark()
     InitWeaponsDamage()
     InitVehsZone()
@@ -166,6 +169,7 @@ function initCinematic()
                                 SetCamFov(cam, 15.0)
                                 PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
                                 SetPlayerInvincible(GetPlayerIndex(), false)
+                                player.camp = "army"
                             end
                         end, RMenu:Get('core', 'army_choose'))
                         RageUI.ButtonWithStyle("Join the resistance", nil, {RightLabel = "~b~"..resitance.."/"..players}, resitance <= army, function(_, _, s)
@@ -189,6 +193,7 @@ function initCinematic()
                                 SetCamFov(cam, 15.0)
                                 PointCamAtEntity(cam, player.ped, 0, 0, 0, 0)
                                 SetPlayerInvincible(GetPlayerIndex(), false)
+                                player.camp = "resistance"
                             end
                         end, RMenu:Get('core', 'resistance_choose'))
                     end, function()

@@ -48,6 +48,8 @@ ResistanceClass = {
 
 function JoinResistance(music)
     SetCamActive(cam, false)
+    DestroyCam(cam, 0)
+    DestroyCam(cam, 1)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "resistance"

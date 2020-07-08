@@ -20,9 +20,7 @@ function InitDeathHandler()
                 if IsEntityDead(GetPlayerPed(-1)) then
                     if not isDead then
                         isDead = true
-                        --local clonePed = ClonePed(player.ped, GetEntityHeading(player.ped), 1, 0)
-                        --SetEntityHealth(clonePed, 0)
-                        --SetEntityVisible(player.ped, 0, 0)
+
                         deathCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
                         RenderScriptCams(1, 0, 0, 0, 0)
                         offset = {0.0, 0.0, 0.0}
@@ -37,6 +35,12 @@ function InitDeathHandler()
                     end
                     count = count + 1
                 else
+                    StopAudioScenes()
+                    ClearFocus()
+                    StopScreenEffect("MP_OrbitalCannon")
+                    SetCamActive(deathCam, false)
+                    DestroyCam(deathCam, 0)
+                    DestroyCam(deathCam, 1)
                     isDead = false
                 end
 
@@ -80,7 +84,7 @@ function InitDeathHandler()
 
         function Respawn()
             isDead = false
-            SetEntityHealth(player.ped, 200)
+            SetEntityHealth(player.ped, 50)
 
             if InRespawnMenu then return end
             RageUI.Visible(RMenu:Get('core', 'respawn'), true)
@@ -99,41 +103,53 @@ function InitDeathHandler()
                         if player.camp == "army" then
                             RageUI.ButtonWithStyle("No vehicle needed.", nil, {}, true, function(_, h, s)
                                 if s then
+                                    Limit = 0
                                     InRespawnMenu = false
                                     RageUI.CloseAll()
                                     ClearFocus()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                             end)
                             RageUI.ButtonWithStyle("Spawn an ~b~blazer4", nil, {}, true, function(_, h, s)
                                 if s then
+                                    Limit = 0
                                     SpawnVeh("blazer4", 153)
                                     InRespawnMenu = false
                                     RageUI.CloseAll()
                                     ClearFocus()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                             end)
                         else
                             RageUI.ButtonWithStyle("No vehicle needed.", nil, {}, true, function(_, h, s)
                                 if s then
+                                    Limit = 0
                                     InRespawnMenu = false
                                     RageUI.CloseAll()
                                     ClearFocus()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                             end)
                             RageUI.ButtonWithStyle("Spawn an ~b~BF400", nil, {}, true, function(_, h, s)
                                 if s then
+                                    Limit = 0
                                     SpawnVeh("bf400", 49)
                                     InRespawnMenu = false
                                     RageUI.CloseAll()
                                     ClearFocus()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                             end)
                         end
@@ -159,6 +175,8 @@ function InitDeathHandler()
                                     RageUI.CloseAll()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
 
                             end)
@@ -181,6 +199,8 @@ function InitDeathHandler()
                                     RageUI.CloseAll()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                             end)
                         end
@@ -208,6 +228,8 @@ function InitDeathHandler()
                                     ClearFocus()
                                     StopScreenEffect("MP_OrbitalCannon")
                                     SetCamActive(deathCam, false)
+                                    DestroyCam(deathCam, 0)
+                                    DestroyCam(deathCam, 1)
                                 end
                                 if h then
                                     local coords = vector3(v.pos.x + 30.0, v.pos.y + 30.0, v.pos.z + 30.0)

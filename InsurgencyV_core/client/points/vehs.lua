@@ -7,8 +7,14 @@ local vehsZone = {
             {model = "dune3", point = 400,},
             {model = "nightshark", point = 1000,},
             {model = "technical", point = 600,},
-            {model = "buzzard", point = 2000,},
+            {model = "buzzard", point = 1000,},
             {model = "bf400", point = 0,},
+            {model = "lav25ifv", point = 0,}, -- Transport + munition explosive
+            {model = "m1128s", point = 0,}, -- Semi tank
+            {model = "m142as", point = 0,}, -- Anti aérien
+            {model = "mrap", point = 0,}, -- Blindé tourelle
+            {model = "unarmed1", point = 0,},
+            {model = "uparmorw", point = 0,},
         },
         color = 49,
     },
@@ -19,9 +25,18 @@ local vehsZone = {
             {model = "barracks3", point = 200,},
             {model = "crusader", point = 150,},
             {model = "halftrack", point = 500,},
-            {model = "buzzard", point = 2000,},
+            {model = "buzzard", point = 1000,},
             {model = "barrage", point = 200,},
             {model = "blazer4", point = 0,},
+            {model = "abrams", point = 500,}, -- tank
+            {model = "brad", point = 0,}, -- Petit véhicule munition explosive
+            {model = "bspec", point = 0,}, -- jeep de transport
+            {model = "hasrad", point = 1500,}, -- Anti aérien
+            {model = "hmvs", point = 0,}, -- Transport jeep tourelle
+
+            {model = "unarmed2", point = 0,},
+            {model = "uparmor", point = 0,},
+            
         },
         color = 153,
     },
@@ -62,7 +77,7 @@ function InitVehsZone()
                             end
                         end
 
-                        SetPlayerVehicleDamageModifier(GetPlayerIndex(), 5.0)
+                       SetPlayerVehicleDamageModifier(GetPlayerIndex(), 10.0)
                         if IsDisabledControlJustPressed(1, 23) then
                             print("Pressed to leave veh")
                             TaskLeaveVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 16)
@@ -212,23 +227,29 @@ function InitVehsZone()
                             if player.camp == "army" then
                                 RageUI.ButtonWithStyle("Spawn an "..v.model, "~b~"..v.point.." team points needed.", {}, v.point <= points.army, function(_, _, s)
                                     if s then
-                                        if Limit < 2 then
+                                        --if Limit < 2 then
+                                        if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
                                             Limit = Limit + 1
                                             SpawnVeh(v.model, color)
-                                        else
-                                            ShowPopupWarning("You already have too many vehicle out.")
+                                            RageUI.CloseAll()
                                         end
+                                        --else
+                                        --    ShowPopupWarning("You already have too many vehicle out.")
+                                        --end
                                     end
                                 end)
                             else
                                 RageUI.ButtonWithStyle("Spawn an "..v.model, "~b~"..v.point.." team points needed.", {}, v.point <= points.resitance, function(_, _, s)
                                     if s then
-                                        if Limit < 2 then
+                                        --if Limit < 2 then
+                                        if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
                                             Limit = Limit + 1
                                             SpawnVeh(v.model, color)
-                                        else
-                                            ShowPopupWarning("You already have too many vehicle out.")
+                                            RageUI.CloseAll()
                                         end
+                                        --else
+                                        --    ShowPopupWarning("You already have too many vehicle out.")
+                                        --end
                                     end
                                 end)
                             end

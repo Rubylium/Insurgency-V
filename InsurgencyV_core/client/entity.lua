@@ -85,6 +85,7 @@ Citizen.CreateThread(function()
 
 		
 		for v in EnumerateVehicles() do
+
 			if GetEntityHealth(v) < 100 then
 				local co = GetEntityCoords(v)
 
@@ -104,7 +105,8 @@ Citizen.CreateThread(function()
 
 		if player.camp == "army" then
 			for v in EnumeratePeds() do
-				--if IsPedAPlayer(v) then
+
+				if v ~= GetPlayerPed(-1) then
 					if GetEntityModel(v) == GetHashKey("s_m_y_marine_03") then
 						local blip = AddBlipForEntity(v)
 						SetBlipScale(blip, 0.65)
@@ -114,11 +116,12 @@ Citizen.CreateThread(function()
 					elseif GetEntityModel(v) == GetHashKey("s_m_y_blackops_01") then
 						SetPedRelationshipGroupHash(v, 'resistance')
 					end
-				--end
+				end
 			end
 		elseif player.camp == "resistance" then
 			for v in EnumeratePeds() do
-				--if IsPedAPlayer(v) then
+
+				if v ~= GetPlayerPed(-1) then
 					if GetEntityModel(v) == GetHashKey("s_m_y_blackops_01") then
 						local blip = AddBlipForEntity(v)
 						SetBlipScale(blip, 0.65)
@@ -128,7 +131,7 @@ Citizen.CreateThread(function()
 					elseif GetEntityModel(v) == GetHashKey("s_m_y_marine_03") then
 						SetPedRelationshipGroupHash(v, 'army')
 					end
-				--end
+				end
 			end
 		end
 

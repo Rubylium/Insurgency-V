@@ -103,7 +103,6 @@ function WinGame(team, army, resitance)
     ClearPedTasks(player.ped)
     RenderScriptCams(0, 0, 0, 0, 0)
     displayText = false
-    InCinematicMenu = true
     DoCinematic()
     RageUI.Visible(RMenu:Get('core', 'cinematic'), true)
     OpenCinematicMenu()

@@ -26,6 +26,7 @@ classe = {
 
 RegisterNetEvent("V:JoinClass")
 AddEventHandler("V:JoinClass", function(team, class)
+    if team == nil or class == nil then return end
     if ClassCache[source] ~= nil then
         local _team = ClassCache[source].teams
         local _class = ClassCache[source].classes
@@ -62,14 +63,31 @@ end)
 
 RegisterNetEvent("V:JoinArmy")
 AddEventHandler("V:JoinArmy", function()
-    army = army + 1
-    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), false, classe)
+    table.insert(army, source)
+    for k,v in pairs(army) do
+        if GetPlayerPing(v) == 0 then
+            table.remove(army, k)
+            print("^1REMOVING: ^7"..v.." from army cache")
+        end
+    end
+    TriggerClientEvent("V:Sync", -1, #resitance, #army, points, GetNumPlayerIndices(), false, classe)
 end)
 
 RegisterNetEvent("V:JoinResistance")
 AddEventHandler("V:JoinResistance", function()
-    resitance = resitance + 1 
-    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), false, classe)
+    table.insert(resitance, source)
+    for k,v in pairs(resitance) do
+        if GetPlayerPing(v) == 0 then
+            table.remove(resitance, k)
+            print("^1REMOVING: ^7"..v.." from resistance cache")
+        end
+    end
+    TriggerClientEvent("V:Sync", -1, #resitance, #army, points, GetNumPlayerIndices(), false, classe)
+end)
+
+RegisterNetEvent("V:GetHealed")
+AddEventHandler("V:GetHealed", function(id)
+    TriggerClientEvent("V:GetHealed", id)
 end)
 
 local WaitingForEndGame = false
@@ -129,6 +147,21 @@ AddEventHandler("V:EndGame", function()
         {label = "Montain house", team = "Neutral"},
         {label = "Fuel farm", team = "Neutral"},
         {label = "Liquor market", team = "Neutral"},
+    }
+
+    classe = {
+        resistance = {
+            ["Rifleman"] = 0,
+            ["Engineer"] = 0,
+            ["Recon"] = 0,
+            ["Medic"] = 0,
+        },
+        army = {
+            ["Rifleman"] = 0,
+            ["Engineer"] = 0,
+            ["Recon"] = 0,
+            ["Medic"] = 0,
+        },
     }
 
     local vehs = GetAllVehicles()

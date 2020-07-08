@@ -41,10 +41,24 @@ function InitPlayerClass()
 
             ClearPlayerWantedLevel(GetPlayerIndex())
 
-            if GetEntityModel(player.ped) ~= GetHashKey("s_m_y_marine_03") or GetEntityModel(player.ped) ~= GetHashKey("s_m_y_blackops_01")then
-                OpenCinematicMenu()
-                Wait(3000)
+            if player.camp == "resistance" then
+                if GetEntityModel(GetPlayerPed(-1)) ~= GetHashKey("s_m_y_blackops_01") then
+                    Wait(1500)
+                    if GetEntityModel(GetPlayerPed(-1)) ~= GetHashKey("s_m_y_blackops_01") then
+                        OpenCinematicMenu()
+                    end
+                    Wait(3000)
+                end
+            else
+                if GetEntityModel(GetPlayerPed(-1)) ~= GetHashKey("s_m_y_marine_03") then
+                    Wait(1500)
+                    if GetEntityModel(GetPlayerPed(-1)) ~= GetHashKey("s_m_y_marine_03") then
+                        OpenCinematicMenu()
+                    end
+                    Wait(3000)
+                end
             end
+           
             Wait(1000)
         end
     end)

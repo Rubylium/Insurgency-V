@@ -12,6 +12,14 @@ function ShowHelpNotification(msg, thisFrame)
 	DisplayHelpTextThisFrame('HelpNotif', false)
 end
 
+function ShowFloatingHelpNotification(msg, coords)
+	AddTextEntry('ShowFloatingHelpNotification', msg)
+	SetFloatingHelpTextWorldPosition(1, coords)
+	SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
+	BeginTextCommandDisplayHelp('ShowFloatingHelpNotification')
+	EndTextCommandDisplayHelp(2, false, false, -1)
+end
+
 
 function SpawnVeh(model, color)
     LoadModel(model)
@@ -19,6 +27,9 @@ function SpawnVeh(model, color)
     SetVehicleColours(veh, color, color)
     TaskWarpPedIntoVehicle(player.ped, veh, -1)
 	SetEntityAsMissionEntity(veh, 1, 1)
+	if model ~= "bf400" and model ~= "blazer4" then
+		ModifyVehicleTopSpeed(veh, 30.0)
+	end
 end
 
 function ShowPopupWarning(msg)
@@ -69,12 +80,12 @@ end
 
 GetClosestPlayer = function()
 	local players = GetActivePlayers()
-	local coords = GetEntityCoords(pPed)
+	local coords = GetEntityCoords(GetPlayerPed(-1))
 	local pCloset = nil
 	local pClosetPos = nil
 	local pClosetDst = nil
 	for k,v in pairs(players) do
-		if GetPlayerPed(v) ~= pPed then
+		if GetPlayerPed(v) ~= GetPlayerPed(-1) then
 			local oPed = GetPlayerPed(v)
 			local oCoords = GetEntityCoords(oPed)
 			local dst = GetDistanceBetweenCoords(oCoords, coords, true)
@@ -157,4 +168,57 @@ Citizen.CreateThread(function()
         end
         Citizen.Wait(0)
     end
+end)
+
+
+Citizen.CreateThread(function()
+	while player == nil do Wait(100) end
+	while player.class == nil do Wait(100) end
+	Citizen.CreateThread(function()
+		while true do
+			if player.class == "Medic" then
+				local closeToplayer = false
+				local player, dst = GetClosestPlayer()
+				print(player, dst)
+				if dst ~= nil and dst < 1.5 then
+					print("Close to player")
+					if GetEntityHealth(GetPlayerPed(player)) < 200 then
+						closeToplayer = true
+						ShowFloatingHelpNotification("Press ~INPUT_PICKUP~ to heal the player.", GetEntityCoords(GetPlayerPed(player)))
+						if IsControlJustPressed(1, 38) then
+							ExecuteCommand("e medic")
+							Wait(3000)
+							TriggerServerEvent("V:GetHealed", GetPlayerServerId(player))
+							ClearPedTasksImmediately(GetPlayerPed(-1))
+						end
+					end
+				end
+				if closeToplayer then
+					Wait(1)
+				else
+					Wait(200)
+				end
+			else
+				Wait(500)
+			end
+		end
+	end)
+end)
+
+RegisterNetEvent("V:GetHealed")
+AddEventHandler("V:GetHealed", function()
+	if isDead then
+		isDead = false
+		InRespawnMenu = false
+		RageUI.CloseAll()
+		ClearFocus()
+		StopScreenEffect("MP_OrbitalCannon")
+		SetCamActive(deathCam, false)
+		NetworkResurrectLocalPlayer(GetEntityCoords(GetPlayerPed(-1)), 240.6, 0, 0)
+		RenderScriptCams(0, 1, 1000, 0, 0)
+		
+	end
+	SetEntityHealth(player.ped, 200)
+	SetPedArmour(player.ped, 200)
+	ClearPedTasks(player.ped)
 end)
