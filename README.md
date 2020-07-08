@@ -6,7 +6,7 @@ This is **not** an RP gamemode.
 
 Insurgency V is an military gamemode for FiveM, inspared by the game Insurgency Sandstorm.
 
-Discord to talk and see what's going on: https://discord.gg/DQfMckK
+Discord to talk and see what's going on: https://discord.gg/yQ26fV
 
 
 # Credit
