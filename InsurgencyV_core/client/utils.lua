@@ -18,7 +18,7 @@ function SpawnVeh(model, color)
     local veh = CreateVehicle(GetHashKey(model), GetEntityCoords(GetPlayerPed(-1)), GetEntityHeading(player.ped), 1, 0)
     SetVehicleColours(veh, color, color)
     TaskWarpPedIntoVehicle(player.ped, veh, -1)
-    
+	SetEntityAsMissionEntity(veh, 1, 1)
 end
 
 function ShowPopupWarning(msg)
@@ -94,6 +94,8 @@ GetClosestPlayer = function()
 
 	return pCloset, pClosetDst
 end
+
+
 
 --=============================================================================
 -->  Made by Super.Cool.Ninja
