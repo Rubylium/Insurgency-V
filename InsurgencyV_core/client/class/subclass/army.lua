@@ -3,21 +3,44 @@ armypeds = {
 }
 
 
-local ArmyWeapons = {
-    "weapon_combatpdw",
-    "weapon_pistol_mk2",
-    "weapon_flaregun",
-    "weapon_grenade",
-    "weapon_carbinerifle",
-}
+ArmyClass = {
+    ["Rifleman"] = {
+        weapons = {
+            {name = "weapon_pistol_mk2", ammo = 255},
+            {name = "weapon_flaregun", ammo = 255},
+            {name = "weapon_carbinerifle", ammo = 255},
+        },
+    },
+    ["Engineer"] = {
+        weapons = {
+            {name = "weapon_hominglauncher", ammo = 2},
+            {name = "weapon_pistol_mk2", ammo = 255},
+            {name = "weapon_flaregun", ammo = 255},
+            {name = "weapon_stickybomb", ammo = 255},
+            {name = "weapon_proxmine", ammo = 255},
+            {name = "weapon_combatpdw", ammo = 255},
+        },
+    },
+    ["Recon"] = {
+        weapons = {
+            {name = "weapon_pistol_mk2", ammo = 255},
+            {name = "weapon_flaregun", ammo = 255},
+            {name = "weapon_sniperrifle", ammo = 255},
+        },
+    },
+    ["Medic"] = {
+        weapons = {
+            {name = "weapon_assaultsmg", ammo = 255},
+            {name = "weapon_appistol", ammo = 255},
+            {name = "weapon_flaregun", ammo = 255},
+        },
+    },
+}  
 
 function JoinArmy(music)
     DisplayRadar(true)
     RenderScriptCams(0, 0, 0, 0, 0)
     player.camp = "army"
-    for k,v in pairs(ArmyWeapons) do
-        GiveWeaponToPed(player.ped, GetHashKey(v), 255, 0, 1)
-    end
 
     if music then
         --TriggerEvent("xsound:stateSound", "play", {
@@ -28,6 +51,14 @@ function JoinArmy(music)
         --})
         TriggerServerEvent("V:JoinArmy")
     end
+
+    if player.class ~= nil then
+        RemoveAllPedWeapons(GetPlayerPed(-1), 1)
+        for _,i in pairs(ArmyClass[player.class].weapons) do
+            GiveWeaponToPed(player.ped, GetHashKey(i.name), i.ammo, 0, 1)
+        end
+    end
+
     inGame = true
     SetEntityInvincible(player.ped, false)
     JoinArmyTeam()
