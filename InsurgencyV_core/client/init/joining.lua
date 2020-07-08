@@ -123,6 +123,8 @@ function initCinematic()
 
 
     function OpenCinematicMenu()
+        local tempClass = nil
+        player.class = "None."
         Citizen.CreateThread(function()
             while InCinematicMenu do
                 Wait(1)
@@ -133,7 +135,7 @@ function initCinematic()
                 SetEntityInvincible(player.ped, true)
 
                 RageUI.IsVisible(RMenu:Get('core', 'cinematic'), false, false, false, function()
-                    RageUI.ButtonWithStyle("Join the army", nil, {RightLabel = "~b~"..army.."/"..players}, true, function(_, _, s)
+                    RageUI.ButtonWithStyle("Join the army", nil, {RightLabel = "~b~"..army.."/"..players}, army <= resitance, function(_, _, s)
                         if s then
                             DoScreenFadeOut(100)
                             while not IsScreenFadedOut() do Wait(1) end
@@ -142,7 +144,6 @@ function initCinematic()
                             SetPlayerModel(GetPlayerIndex(), GetHashKey("s_m_y_marine_03"))
                             player.ped = GetPlayerPed(-1)
                             SetPedRandomProps(player.ped)
-                            GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
 
                             DoScreenFadeIn(1500)
                             InCinematic = false
@@ -156,7 +157,7 @@ function initCinematic()
                             SetPlayerInvincible(GetPlayerIndex(), false)
                         end
                     end, RMenu:Get('core', 'army_choose'))
-                    RageUI.ButtonWithStyle("Join the resistance", nil, {RightLabel = "~b~"..resitance.."/"..players}, true, function(_, _, s)
+                    RageUI.ButtonWithStyle("Join the resistance", nil, {RightLabel = "~b~"..resitance.."/"..players}, resitance <= army, function(_, _, s)
                         if s then
                             DoScreenFadeOut(100)
                             while not IsScreenFadedOut() do Wait(1) end
@@ -183,17 +184,27 @@ function initCinematic()
                 end)
 
                 RageUI.IsVisible(RMenu:Get('core', 'resistance_choose'), false, false, false, function()
-                    --for k,v in pairs(armypeds) do
-                    --    RageUI.ButtonWithStyle(v.label, nil, {}, true, function(_, _, s)
-                    --        if s then
-                    --            LoadModel(v.model)
-                    --            SetPlayerModel(GetPlayerIndex(), GetHashKey(v.model))
-                    --            player.ped = GetPlayerPed(-1)
-                    --            SetPedRandomProps(player.ped)
-                    --            GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
-                    --        end
-                    --    end)
-                    --end
+                    RageUI.Separator("Class selected: ~b~"..player.class)
+                    for k,v in pairs(ResistanceClass) do
+                        RageUI.ButtonWithStyle(k, nil, {}, true, function(_, h, s)
+                            if s then
+                                RemoveAllPedWeapons(GetPlayerPed(-1), 1)
+                                for _,i in pairs(v.weapons) do
+                                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(i.name), i.ammo, 0, 1)
+                                end
+                                player.class = k
+                            end
+                            if h then
+                                if tempClass ~= k then
+                                    RemoveAllPedWeapons(GetPlayerPed(-1), 1)
+                                    for _,i in pairs(v.weapons) do
+                                        GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(i.name), i.ammo, 0, 1)
+                                    end
+                                    tempClass = k
+                                end
+                            end
+                        end)
+                   end
 
                     RageUI.ButtonWithStyle("~g~Join the game.", nil, {}, true, function(_, _, s)
                         if s then
@@ -211,14 +222,24 @@ function initCinematic()
                 end)
 
                 RageUI.IsVisible(RMenu:Get('core', 'army_choose'), false, false, false, function()
-                    for k,v in pairs(armypeds) do
-                        RageUI.ButtonWithStyle(v.label, nil, {}, true, function(_, _, s)
+                    RageUI.Separator("Class selected: ~b~"..player.class)
+                    for k,v in pairs(ArmyClass) do
+                        RageUI.ButtonWithStyle(k, nil, {}, true, function(_, h, s)
                             if s then
-                                LoadModel(v.model)
-                                SetPlayerModel(GetPlayerIndex(), GetHashKey(v.model))
-                                player.ped = GetPlayerPed(-1)
-                                SetPedRandomProps(player.ped)
-                                GiveWeaponToPed(player.ped, GetHashKey("weapon_carbinerifle"), 255, 0, true)
+                                RemoveAllPedWeapons(GetPlayerPed(-1), 1)
+                                for _,i in pairs(v.weapons) do
+                                    GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(i.name), i.ammo, 0, 1)
+                                end
+                                player.class = k
+                            end
+                            if h then
+                                if tempClass ~= k then
+                                    RemoveAllPedWeapons(GetPlayerPed(-1), 1)
+                                    for _,i in pairs(v.weapons) do
+                                        GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(i.name), i.ammo, 0, 1)
+                                    end
+                                    tempClass = k
+                                end
                             end
                         end)
                     end
