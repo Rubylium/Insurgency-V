@@ -34,6 +34,18 @@ function InitWatermark()
                 SetTextEntry("STRING")
                 AddTextComponentString("Army: "..points.army.." - Resistance: "..points.resitance)
                 DrawText(0.155, 0.950)
+
+                --local TxtActive = 1
+                --SetTextColour(255, 255, 255, 200)
+                --SetTextFont(4)
+                --SetTextScale(0.4, 0.4)
+                --SetTextWrap(0.0, 1.0)
+                --SetTextCentre(true)
+                --SetTextDropshadow(2, 2, 0, 0, 0)
+                --SetTextEdge(1, 0, 0, 0, 205)
+                --SetTextEntry("STRING")
+                --AddTextComponentString("~b~+ 1500~s~ TEST NOTIF")
+                --EndTextCommandDisplayText(0.500, 0.690 + (0.05 * TxtActive))
             end
         end
     end)

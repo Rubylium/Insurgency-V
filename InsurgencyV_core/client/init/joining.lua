@@ -1,12 +1,12 @@
 Citizen.CreateThread(function()
     while not NetworkIsSessionActive() do Wait(1) end
-
+    Wait(5000)
 
     -- spawn the player
     local ped = PlayerPedId()
     -- V requires setting coords as well
-    SetEntityCoordsNoOffset(ped, 182.16, 2708.5, 41.29, false, false, false, true)
-    NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 100.0, true, true, false)
+    SetEntityCoordsNoOffset(ped, 210.8, 2262.6, 85.0, false, false, false, true)
+    NetworkResurrectLocalPlayer(210.8, 2262.6, 85.0, 100.0, true, true, false)
     -- gamelogic-style cleanup stuff
     ClearPedTasksImmediately(ped)
     --SetEntityHealth(ped, 300) -- TODO: allow configuration of this?
@@ -80,7 +80,7 @@ function initCinematic()
                 DoScreenFadeIn(2500)
                 while InCinematic do
                     SetPlayerInvincible(GetPlayerIndex(), true)
-                    NetworkResurrectLocalPlayer(182.16, 2708.5, 41.29, 100.0, true, true, false)
+                    NetworkResurrectLocalPlayer(210.8, 2262.6, 85.0, 100.0, true, true, false)
 
 
                     DoScreenFadeIn(2500)
@@ -231,6 +231,9 @@ function initCinematic()
                                 DoScreenFadeIn(2500)
                                 ClearFocus()
                                 InCinematicMenu = false
+                                if player.class == nil then
+                                    player.class = "Rifleman"
+                                end
                                 JoinResistance(true)
                                 
                             end
@@ -270,6 +273,9 @@ function initCinematic()
                                 DoScreenFadeIn(2500)
                                 ClearFocus()
                                 InCinematicMenu = false
+                                if player.class == nil then
+                                    player.class = "Rifleman"
+                                end
                                 JoinArmy(true)
                                 
                             end

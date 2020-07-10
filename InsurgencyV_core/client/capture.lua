@@ -170,16 +170,16 @@ function StartCapture(id, pos)
     
     local id = id
 
-    TriggerEvent("xsound:stateSound", "play", {
-        soundId = "capture", 
-        url = possibleMusic[math.random(1,#possibleMusic)], 
-        volume = 0.10, 
-        loop = true
-    })
+    --TriggerEvent("xsound:stateSound", "play", {
+    --    soundId = "capture", 
+    --    url = possibleMusic[math.random(1,#possibleMusic)], 
+    --    volume = 0.10, 
+    --    loop = true
+    --})
 
     Citizen.CreateThread(function()
         while InCapture do
-            RageUI.Text({message = "Capturing zone in progress ..."})
+            --RageUI.Text({message = "Capturing zone in progress ..."})
             if GetDistanceBetweenCoords(pos, player.coords, true) > 100.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
@@ -196,9 +196,9 @@ function StartCapture(id, pos)
 
 
             local r = math.random(1,1000)
-            if r >= 998 then
-                local _, z = GetGroundZFor_3dCoord(player.coords.x, player.coords.y, player.coords.z, 0)
-                local pos = vector3(player.coords.x + math.random(-30,30), player.coords.y + math.random(-30,30), z + 1.0)
+            if r >= 995 then
+                local _, z = GetGroundZFor_3dCoord(pos.x, pos.y, pos.z, 0)
+                local pos = vector3(pos.x + math.random(-30,30), pos.y + math.random(-30,30), z + 1.0)
                 if player.camp == "resistance" then
                     LoadModel("s_m_y_marine_03")
                     local ped = CreatePed(4, GetHashKey("s_m_y_marine_03"), pos, 100.0, 1, 0)
@@ -214,6 +214,7 @@ function StartCapture(id, pos)
                     GiveWeaponToPed(ped, GetHashKey("weapon_microsmg"), 255, 0, 1)
                     TaskShootAtEntity(ped, player.ped, 999999999.0, GetHashKey("FIRING_PATTERN_FULL_AUTO"))
                     SetPedAccuracy(ped, 1)
+                    SetEntityHealth(ped, 500)
                     --local blip = AddBlipForEntity(ped)
                     table.insert(CaptureNpcs, PedToNet(ped))
                 end
@@ -235,7 +236,7 @@ function StartCapture(id, pos)
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
                 TriggerServerEvent("DeleteEntity", CaptureNpcs)
                 CaptureNpcs = {}
-                XNL_AddPlayerXP(1000)
+                XNL_AddPlayerXP(2000, "ZONE CAPTURED")
                 CreateCaptureExplosion(pos)
                 Wait(5000)
                 InCapture = false

@@ -1,6 +1,6 @@
 
-resitance = 0
-army = 0
+resitance = {}
+army = {}
 
 points = {
     army = 0,
@@ -33,7 +33,7 @@ AddEventHandler("V:JoinClass", function(team, class)
     
         if _team == "resistance" then
             classe.resistance[_class] = classe.resistance[_class] - 1
-        else
+        elseif _team == "army" then
             classe.army[_class] = classe.army[_class] - 1
         end   
     end
@@ -41,11 +41,11 @@ AddEventHandler("V:JoinClass", function(team, class)
 
     if team == "resistance" then
         classe.resistance[class] = classe.resistance[class] + 1
-    else
+    elseif _team == "army" then
         classe.army[class] = classe.army[class] + 1
     end
     ClassCache[source] = {teams = team, classes = class}
-    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), false, classe)
+    TriggerClientEvent("V:Sync", -1, #resitance, #army, points, GetNumPlayerIndices(), endGameDueToMaxZoneCaptured, classe)
 end)
 
 AddEventHandler('playerDropped', function (reason)
@@ -55,17 +55,32 @@ AddEventHandler('playerDropped', function (reason)
 
     if team == "resistance" then
         classe.resistance[class] = classe.resistance[class] - 1
-    else
+    elseif _team == "army" then
         classe.army[class] = classe.army[class] - 1
     end
-    TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), false, classe)
+
+    for k,v in pairs(army) do
+        if GetPlayerPing(v.id) == 0 then
+            table.remove(army, k)
+            print("^1REMOVING: ^7"..v.." from army cache")
+        end
+    end
+
+    for k,v in pairs(resitance) do
+        if GetPlayerPing(v.id) == 0 then
+            table.remove(resitance, k)
+            print("^1REMOVING: ^7"..v.." from resistance cache")
+        end
+    end
+
+    TriggerClientEvent("V:Sync", -1, #resitance, #army, points, GetNumPlayerIndices(), endGameDueToMaxZoneCaptured, classe)
 end)
 
 RegisterNetEvent("V:JoinArmy")
 AddEventHandler("V:JoinArmy", function()
-    table.insert(army, source)
+    table.insert(army, {id = source})
     for k,v in pairs(army) do
-        if GetPlayerPing(v) == 0 then
+        if GetPlayerPing(v.id) == 0 then
             table.remove(army, k)
             print("^1REMOVING: ^7"..v.." from army cache")
         end
@@ -75,9 +90,9 @@ end)
 
 RegisterNetEvent("V:JoinResistance")
 AddEventHandler("V:JoinResistance", function()
-    table.insert(resitance, source)
+    table.insert(resitance, {id = source})
     for k,v in pairs(resitance) do
-        if GetPlayerPing(v) == 0 then
+        if GetPlayerPing(v.id) == 0 then
             table.remove(resitance, k)
             print("^1REMOVING: ^7"..v.." from resistance cache")
         end
@@ -115,11 +130,31 @@ Citizen.CreateThread(function()
             if resistanceZone == #captureZone then
                 endGameDueToMaxZoneCaptured = true
             end
-            TriggerClientEvent("V:Sync", -1, resitance, army, points, GetNumPlayerIndices(), endGameDueToMaxZoneCaptured, classe)
+            TriggerClientEvent("V:Sync", -1, #resitance, #army, points, GetNumPlayerIndices(), endGameDueToMaxZoneCaptured, classe)
             if points.army > 3000 or points.resitance > 3000 then WaitingForEndGame = true end
         end
-        print("Army: "..points.army.." vs Resistance: "..points.resitance)
         Wait(5000)
+    end
+end)
+
+
+Citizen.CreateThread(function()
+    while true do
+        local webhook = "https://discordapp.com/api/webhooks/730505958345801759/vt14-INulxcufdFmwYONFQ1zWhQW1hOT3TOgbgSEZ0t1K05vXiLLXnWN2GBT-djh3_3G"
+
+        local connect = {
+            {
+                ["color"] = "8663711",
+                ["title"] = "Insurgency Status game #1",
+                ["description"] = "**Army stats:**\n**"..#army.."** players\n**"..points.army.."** points\n\n**Resistance stats**:\n**"..#resitance.."** players\n**"..points.resitance.."** points\n\n**"..GetNumPlayerIndices().."** players online.",
+                ["footer"] = {
+                    ["text"] = "Insurgency V - An Rubylium project.",
+                },
+            }
+        }
+
+        PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, embeds = connect}), { ['Content-Type'] = 'application/json' })
+        Wait(5*60*1000)
     end
 end)
 
@@ -131,8 +166,8 @@ AddEventHandler("V:EndGame", function()
     JustRestared = true
 
 
-    resitance = 0
-    army = 0
+    resitance = {}
+    army = {}
     
     points = {
         army = 0,
@@ -171,7 +206,7 @@ AddEventHandler("V:EndGame", function()
 
 
     TriggerClientEvent("V:ResetGame", -1)
-    Wait(120*1000)
+    Wait(320*1000)
     JustRestared = false
     WaitingForEndGame = false
 end)

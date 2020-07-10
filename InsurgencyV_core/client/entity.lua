@@ -69,10 +69,12 @@ function EnumeratePickups()
 end
 
 local blips = {}
+local EntCache = {}
 Citizen.CreateThread(function()
 	while player == nil do Wait(100) end
 	while true do
 		local particles = {}
+		local NearHeli = false
 		RequestNamedPtfxAsset("scr_trevor3")
 		while not HasNamedPtfxAssetLoaded("scr_trevor3") do
 			Wait(1)
@@ -97,6 +99,25 @@ Citizen.CreateThread(function()
 				local particle = StartParticleFxLoopedAtCoord("scr_env_agency3b_smoke", co.x, co.y, co.z+0.4, 1.0, 1.0, 100.0, 0.7, false, false)
 				table.insert(particles, particle)
 			end
+
+			if GetEntityModel(v) == GetHashKey("buzzard2") then
+				local ped = GetPedInVehicleSeat(v, -1)
+				if player.camp == "army" then
+					if GetEntityModel(ped) == GetHashKey("s_m_y_marine_03") then
+						local dst = GetDistanceBetweenCoords(GetEntityCoords(v), player.coords, false)
+						if dst < 150 then
+							NearHeli = true
+						end
+					end
+				elseif player.camp == "resistance" then
+					if GetEntityModel(ped) == GetHashKey("s_m_y_blackops_01") then
+						local dst = GetDistanceBetweenCoords(GetEntityCoords(v), player.coords, false)
+						if dst < 150 then
+							NearHeli = true
+						end
+					end
+				end
+			end
 		end
 
 		for k,v in pairs(blips) do
@@ -111,11 +132,33 @@ Citizen.CreateThread(function()
 						local blip = AddBlipForEntity(v)
 						SetBlipScale(blip, 0.65)
 						SetBlipColour(blip, 67)
+						if GetEntityHealth(v) < 30 then
+							SetBlipSprite(blip, 353)
+						end
 						table.insert(blips, blip)
 						SetPedRelationshipGroupHash(v, 'army')
-					elseif GetEntityModel(v) == GetHashKey("s_m_y_blackops_01") then
-						SetPedRelationshipGroupHash(v, 'resistance')
+					elseif GetEntityModel(v) == GetHashKey("s_m_y_blackops_01") and NearHeli then
+						local blip = AddBlipForEntity(v)
+						SetBlipScale(blip, 0.65)
+						SetBlipColour(blip, 1)
+						table.insert(blips, blip)
 					end
+				end
+
+				local xp = 0
+				if IsPedDeadOrDying(v, 1) then
+					if v ~= player.ped then
+						if GetPedSourceOfDeath(v) == player.ped then
+							if EntCache[v] == nil then
+								TriggerServerEvent("DeleteEntity", {PedToNet(v)})
+								xp = xp + 100
+								EntCache[v] = true
+							end
+						end
+					end
+				end
+				if xp > 0 then
+					XNL_AddPlayerXP(xp, "NPC KILL")
 				end
 			end
 		elseif player.camp == "resistance" then
@@ -126,16 +169,43 @@ Citizen.CreateThread(function()
 						local blip = AddBlipForEntity(v)
 						SetBlipScale(blip, 0.65)
 						SetBlipColour(blip, 67)
+						if GetEntityHealth(v) < 30 then
+							SetBlipSprite(blip, 353)
+						end
 						table.insert(blips, blip)
 						SetPedRelationshipGroupHash(v, 'resistance')
-					elseif GetEntityModel(v) == GetHashKey("s_m_y_marine_03") then
-						SetPedRelationshipGroupHash(v, 'army')
+					elseif GetEntityModel(v) == GetHashKey("s_m_y_marine_03") and NearHeli then
+						local blip = AddBlipForEntity(v)
+						SetBlipScale(blip, 0.65)
+						SetBlipColour(blip, 1)
+						table.insert(blips, blip)
 					end
+				end
+
+				local xp = 0
+				if IsPedDeadOrDying(v, 1) then
+					if v ~= player.ped then
+						if GetPedSourceOfDeath(v) == player.ped then
+							if EntCache[v] == nil then
+								TriggerServerEvent("DeleteEntity", {PedToNet(v)})
+								xp = xp + 100
+								EntCache[v] = true
+							end
+						end
+					end
+				end
+				if xp > 0 then
+					XNL_AddPlayerXP(xp, "NPC KILL")
 				end
 			end
 		end
 
-		Wait(1500)
+
+		for v in EnumerateVehicles() do
+
+		end
+
+		Wait(500)
 		for k,v in pairs(particles) do
 			StopParticleFxLooped(v)
 			

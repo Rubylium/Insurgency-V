@@ -20,7 +20,7 @@ function ShowFloatingHelpNotification(msg, coords)
 	EndTextCommandDisplayHelp(2, false, false, -1)
 end
 
-
+local lastVeh = nil
 function SpawnVeh(model, color)
     LoadModel(model)
     local veh = CreateVehicle(GetHashKey(model), GetEntityCoords(GetPlayerPed(-1)), GetEntityHeading(player.ped), 1, 0)
@@ -30,6 +30,15 @@ function SpawnVeh(model, color)
 	if model ~= "bf400" and model ~= "blazer4" then
 		ModifyVehicleTopSpeed(veh, 30.0)
 	end
+
+	local last = NetworkGetEntityFromNetworkId(lastVeh)
+	if last ~= nil then
+		local co = GetEntityCoords(last)
+		if GetDistanceBetweenCoords(player.coords, co, true) < 30 then
+			TriggerServerEvent("DeleteEntity", {lastVeh})
+		end
+	end
+	lastVeh = VehToNet(veh)
 end
 
 function ShowPopupWarning(msg)
@@ -179,9 +188,7 @@ Citizen.CreateThread(function()
 			if player.class == "Medic" then
 				local closeToplayer = false
 				local player, dst = GetClosestPlayer()
-				print(player, dst)
 				if dst ~= nil and dst < 1.5 then
-					print("Close to player")
 					if GetEntityHealth(GetPlayerPed(player)) < 200 then
 						closeToplayer = true
 						ShowFloatingHelpNotification("Press ~INPUT_PICKUP~ to heal the player.", GetEntityCoords(GetPlayerPed(player)))
@@ -190,6 +197,7 @@ Citizen.CreateThread(function()
 							Wait(3000)
 							TriggerServerEvent("V:GetHealed", GetPlayerServerId(player))
 							ClearPedTasksImmediately(GetPlayerPed(-1))
+							XNL_AddPlayerXP(xp, "MEDIC ACTION")
 						end
 					end
 				end

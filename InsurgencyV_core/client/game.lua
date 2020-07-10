@@ -41,6 +41,16 @@ AddEventHandler("V:Sync", function(r, a, point, num, endGameDueToMaxZoneCaptured
     if endGameDueToMaxZoneCaptured then
         WinGame("Max Zone", points.army, points.resitance)
     end
+
+
+    -- Sync weather with everyone, temporary
+
+    ClearOverrideWeather()
+    ClearWeatherTypePersist()
+    SetWeatherTypePersist("EXTRASUNNY")
+    SetWeatherTypeNow("EXTRASUNNY")
+    SetWeatherTypeNowPersist("EXTRASUNNY")
+    NetworkOverrideClockTime(8, 12, 0)
 end)
 
 
@@ -51,7 +61,7 @@ function WinGame(team, army, resitance)
     TriggerEvent("xsound:stateSound", "play", {
         soundId = "cinematic", 
         url = "https://www.youtube.com/watch?v=rHtvlftBDHM", 
-        volume = 0.10, 
+        volume = 0.005, 
         loop = false
     })
     Wait(45*1000)

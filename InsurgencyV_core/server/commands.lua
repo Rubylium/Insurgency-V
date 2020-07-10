@@ -5,8 +5,6 @@ RegisterCommand("reset", function(source, args, rawCommand)
             DeleteEntityYes(v)
         end
 
-        resitance = 0
-        army = 0
     end
 end, true)
 

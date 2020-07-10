@@ -342,7 +342,9 @@ local RockstarRanks = {
         -- these 'features' in this script
     end
     
-    function XNL_AddPlayerXP(XPAmount)
+    local TxtActive = 0
+    function XNL_AddPlayerXP(XPAmount, reason)
+        SetAudioFlag("LoadMPData", true)
         --======================================================================================
         -- "The Command" to give the player new XP (Well documented/commented)
         --======================================================================================
@@ -360,6 +362,32 @@ local RockstarRanks = {
             print("XNL WARNING: is trying to TAKE XP from a player, use 'XNL_RemovePlayerXP' instead!")
             print("=====================================================================================================")
             return
+        end
+
+        if reason ~= nil then
+            PlaySoundFrontend(-1, "ATM_WINDOW", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+            Citizen.CreateThread(function()
+                local count = 0
+                TxtActive = TxtActive + 1
+                local display = TxtActive
+                while count < 200 do
+                    count = count + 1
+
+                    SetTextColour(255, 255, 255, 200)
+                    SetTextFont(4)
+                    SetTextScale(0.4, 0.4)
+                    SetTextWrap(0.0, 1.0)
+                    SetTextCentre(true)
+                    SetTextDropshadow(2, 2, 0, 0, 0)
+                    SetTextEdge(1, 0, 0, 0, 205)
+                    SetTextEntry("STRING")
+                    AddTextComponentString("~b~+ "..tostring(XPAmount).."~s~ "..reason)
+                    EndTextCommandDisplayText(0.500, 0.690 + (0.018 * display))
+                    Wait(0)
+                end
+                Wait(200)
+                TxtActive = TxtActive - 1
+            end)
         end
         
         local CurrentLevel = XNL_GetLevelFromXP(XNL_CurrentPlayerXP)	-- Remembers the CURRENT level of the player BEFORE adding the new XP

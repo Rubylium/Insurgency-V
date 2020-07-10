@@ -7,7 +7,7 @@ local vehsZone = {
             {model = "dune3", point = 400,},
             {model = "nightshark", point = 1000,},
             {model = "technical", point = 600,},
-            {model = "buzzard", point = 1000,},
+            {model = "buzzard2", point = 0,},
             {model = "bf400", point = 0,},
             {model = "lav25ifv", point = 0,}, -- Transport + munition explosive
             {model = "m1128s", point = 0,}, -- Semi tank
@@ -25,7 +25,7 @@ local vehsZone = {
             {model = "barracks3", point = 200,},
             {model = "crusader", point = 150,},
             {model = "halftrack", point = 500,},
-            {model = "buzzard", point = 1000,},
+            {model = "buzzard2", point = 0,},
             {model = "barrage", point = 200,},
             {model = "blazer4", point = 0,},
             {model = "abrams", point = 500,}, -- tank
@@ -69,9 +69,8 @@ function InitVehsZone()
                             end
                         end
                     else
-                        if not NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+                        if not NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)) and inGame then
                             Wait(1500)
-                            print(NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)))
                             if not NetworkGetEntityIsNetworked(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
                                 DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(-1), false))
                             end
@@ -232,6 +231,7 @@ function InitVehsZone()
                                             Limit = Limit + 1
                                             SpawnVeh(v.model, color)
                                             RageUI.CloseAll()
+                                            InsideMenu = false
                                         end
                                         --else
                                         --    ShowPopupWarning("You already have too many vehicle out.")
@@ -246,6 +246,7 @@ function InitVehsZone()
                                             Limit = Limit + 1
                                             SpawnVeh(v.model, color)
                                             RageUI.CloseAll()
+                                            InsideMenu = false
                                         end
                                         --else
                                         --    ShowPopupWarning("You already have too many vehicle out.")
