@@ -170,16 +170,9 @@ function StartCapture(id, pos)
     
     local id = id
 
-    --TriggerEvent("xsound:stateSound", "play", {
-    --    soundId = "capture", 
-    --    url = possibleMusic[math.random(1,#possibleMusic)], 
-    --    volume = 0.10, 
-    --    loop = true
-    --})
-
     Citizen.CreateThread(function()
         while InCapture do
-            --RageUI.Text({message = "Capturing zone in progress ..."})
+            RageUI.Text({message = "Capturing zone in progress ..."})
             if GetDistanceBetweenCoords(pos, player.coords, true) > 100.0 then
                 InCapture = false
                 TriggerEvent("xsound:stateSound", "destroy", {soundId = "capture", })
@@ -237,6 +230,12 @@ function StartCapture(id, pos)
                 TriggerServerEvent("DeleteEntity", CaptureNpcs)
                 CaptureNpcs = {}
                 XNL_AddPlayerXP(2000, "ZONE CAPTURED")
+                TriggerEvent("xsound:stateSound", "play", {
+                    soundId = "capture", 
+                    url = possibleMusic[math.random(1,#possibleMusic)], 
+                    volume = 0.10, 
+                    loop = true
+                })
                 CreateCaptureExplosion(pos)
                 Wait(5000)
                 InCapture = false
