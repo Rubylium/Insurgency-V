@@ -188,6 +188,12 @@ Citizen.CreateThread(function()
 			if player.class == "Medic" then
 				local closeToplayer = false
 				local player, dst = GetClosestPlayer()
+				if dst ~= nil and dst < 10.0 and dst > 1.6 then
+					closeToplayer = true
+					if GetEntityHealth(GetPlayerPed(player)) < 100 then
+						ShowFloatingHelpNotification("Need Medic!", GetEntityCoords(GetPlayerPed(player)))
+					end
+				end
 				if dst ~= nil and dst < 1.5 then
 					if GetEntityHealth(GetPlayerPed(player)) < 200 then
 						closeToplayer = true
