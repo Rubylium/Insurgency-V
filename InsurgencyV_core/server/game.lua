@@ -33,8 +33,14 @@ AddEventHandler("V:JoinClass", function(team, class)
     
         if _team == "resistance" then
             classe.resistance[_class] = classe.resistance[_class] - 1
+            if classe.resistance[_class] < 0 then
+                classe.resistance[_class] = 0
+            end
         elseif _team == "army" then
             classe.army[_class] = classe.army[_class] - 1
+            if classe.army[_class] < 0 then
+                classe.army[_class] = 0
+            end
         end   
     end
 
@@ -166,6 +172,7 @@ AddEventHandler("V:EndGame", function()
     JustRestared = true
 
 
+    ClassCache = {}
     resitance = {}
     army = {}
     
